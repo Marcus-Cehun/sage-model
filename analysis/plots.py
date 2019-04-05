@@ -16,6 +16,8 @@ Author: Jacob Seiler
 """
 
 import matplotlib
+
+matplotlib.use('Agg')
 from matplotlib import pyplot as plt
 from cycler import cycler
 import numpy as np

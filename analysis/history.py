@@ -240,9 +240,9 @@ if __name__ == '__main__':
                                  # Will search for the closest simulation redshift.
     model0_density_z           = -1  # Redshifts you wish to plot the evolution of
                                      # densities at. Set to -1 for all redshifts.
-    model0_alist_file          = "../input/millennium/trees/millennium.a_list"
+    model0_alist_file          = "../input/mini_millennium/trees/millennium.a_list"
     model0_sage_output_format  = "sage_binary"  # Format SAGE output in. "sage_binary" or "sage_hdf5".
-    model0_dir_name            = "../output/millennium/"
+    model0_dir_name            = "../output/mini_millennium/"
     model0_file_name           = "model"  # If using "sage_binary", doesn't have to end in "_zX.XXX"
     model0_IMF                 = "Chabrier"  # Chabrier or Salpeter.
     model0_model_label         = "Mini-Millennium"

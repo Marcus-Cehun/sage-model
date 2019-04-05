@@ -180,16 +180,16 @@ if __name__ == "__main__":
     # specified if using binary output. HDF5 will automatically detect these.
     # `hdf5_snapshot` is only nedded if using HDF5 output.
 
-    model0_sage_output_format  = "sage_hdf5"  # Format SAGE output in. "sage_binary" or "sage_hdf5".
-    model0_dir_name            = "../output/millennium/"
-    model0_file_name           = "model.hdf5"
+    model0_sage_output_format  = "sage_binary"  # Format SAGE output in. "sage_binary" or "sage_hdf5".
+    model0_dir_name            = "../output/mini_millennium/"
+    model0_file_name           = "model_z0.000"
     model0_IMF                 = "Chabrier"  # Chabrier or Salpeter.
     model0_model_label         = "Mini-Millennium"
     model0_color               = "r"
     model0_linestyle           = "-"
     model0_marker              = "x"
     model0_first_file          = 0  # The files read in will be [first_file, last_file]
-    model0_last_file           = 4  # This is a closed interval.
+    model0_last_file           = 0  # This is a closed interval.
     model0_simulation          = "Mini-Millennium"  # Sets the cosmology. Required for "sage_binary".
     model0_hdf5_snapshot       = 63  # Snapshot we're plotting the HDF5 data at.
     model0_num_tree_files_used = 8  # Number of tree files processed by SAGE to produce this output.
@@ -212,7 +212,7 @@ if __name__ == "__main__":
 
     # A couple of extra variables...
     plot_output_format    = ".png"
-    plot_output_path = "./dict_plots"  # Will be created if path doesn't exist.
+    plot_output_path = "./mini_millennium_plots"  # Will be created if path doesn't exist.
 
     # These toggles specify which plots you want to be made.
     plot_toggles = {"SMF"             : 1,  # Stellar mass function.
@@ -239,7 +239,7 @@ if __name__ == "__main__":
     # Determine paths for each model.
     for dir_name, file_name  in zip(dir_names, file_names):
 
-        model_path = "{0}/{1}".format(dir_name, file_name)
+        model_path = "{0}{1}".format(dir_name, file_name)
         model_paths.append(model_path)
 
         # These are model specific. Used for rare circumstances and debugging.

@@ -15,16 +15,16 @@ fi
 echo "Making the 'output/millennium' directory to hold the model output."
 
 # By using `-p`, `mkdir` won't fail if the directory already exists.
-mkdir -p output/millennium
+mkdir -p output/mini_millennium
 echo "Done."
 echo ""
 
 echo "Creating the 'input/millennium/trees' directory."
-mkdir -p input/millennium/trees
+mkdir -p input/mini_millennium/trees
 echo "Done."
 echo ""
 
-cd input/millennium/trees
+cd input/mini_millennium/trees
 
 if [ ! -f trees_063.7 ]; then
     echo "Fetching Mini-Millennium trees."
