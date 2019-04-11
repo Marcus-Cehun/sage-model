@@ -144,10 +144,7 @@ def plot_SMF(results, plot_sub_populations=False):
 
     ax.set_yscale("log", nonposy="clip")
 
-    # Find the models that have the smallest/largest stellar mass bin.
-    xlim_min = np.min([model.mass_bins for model in results.models]) - 0.2
-    xlim_max = np.max([model.mass_bins for model in results.models]) + 0.2
-    ax.set_xlim([xlim_min, xlim_max])
+    ax.set_xlim([8.0, 12.0])
     ax.set_ylim([1.0e-6, 1.0e-1])
 
     ax.xaxis.set_minor_locator(plt.MultipleLocator(0.1))
@@ -212,10 +209,7 @@ def plot_temporal_SMF(temporal_results):
 
     ax.set_yscale("log", nonposy="clip")
 
-    # Find the models that have the smallest/largest stellar mass bin.
-    xlim_min = np.min([model.mass_bins for model in temporal_results.models]) - 0.2
-    xlim_max = np.max([model.mass_bins for model in temporal_results.models]) + 0.2
-    ax.set_xlim([xlim_min, xlim_max])
+    ax.set_xlim([8.0, 12.0])
     ax.set_ylim([1.0e-6, 1.0e-1])
 
     ax.xaxis.set_minor_locator(plt.MultipleLocator(0.1))
@@ -297,7 +291,7 @@ def plot_BMF(results):
 
 def plot_GMF(results):
     """
-    Plots the baryonic mass function for the models within the ``Results`` class instance.
+    Plots the gas mass function for the models within the ``Results`` class instance.
     This is the mass function for the cold gas.
 
     Parameters
@@ -412,7 +406,7 @@ def plot_BTF(results):
 
 def plot_sSFR(results):
     """
-    Plots the baryonic specific star formation rate as a function of stellar mass for the models within the
+    Plots the specific star formation rate as a function of stellar mass for the models within the
     ``Results`` class instance.
 
     Parameters

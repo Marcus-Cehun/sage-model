@@ -7,8 +7,17 @@ To add your own data format, create a subclass module (e.g., ``sage_binary.py``)
 option to ``Results.__init__``.  This subclass module needs methods ``set_cosmology()``,
 ``determine_num_gals()`` and  ``read_gals()``.
 
-To calculate and plot extra properties, refer to the documentation inside the ``model.py``
-and ``plot.py`` module respectively.
+To calculate and plot extra properties, first add the name of your new plot to the
+``plot_toggles`` dictionary.  You will need to create a method in ``model.py`` to
+calculate your properties and name it ``calc_<Name of your plot toggle>``.  To plot your
+new property, you will need to create a function in ``plots.py`` called ``plot_<Name of
+your plot toggle>``.
+
+For example, to generate and plot data for the ``SMF`` plot, we have methods ``calc_SMF()``
+and ``plot_SMF()``.
+
+Refer to the documentation inside the ``model.py`` and ``plot.py`` modules for more
+details.
 
 Author: Jacob Seiler
 """
@@ -266,7 +275,7 @@ if __name__ == "__main__":
 
     # Read in the galaxies and calculate properties for each model.
     results = Results(model_dict, plot_toggles, plot_output_path, plot_output_format,
-                      debug=True)
+                      debug=False)
     results.do_plots()
 
     # Set the error settings to the previous ones so we don't annoy the user.
