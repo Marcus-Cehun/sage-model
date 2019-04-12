@@ -215,7 +215,8 @@ class Model:
         To add another property, add its name to the ``scatter_property_names`` list.
         """
 
-        scatter_property_names = ["BTF_mass", "BTF_vel", "sSFR_mass", "sSFR_sSFR",
+        scatter_property_names = ["BTF_mass", "BTF_vel", "SFR_mass", "SFR_SFR",
+                                  "sSFR_mass", "sSFR_sSFR",
                                   "gas_frac_mass", "gas_frac", "metallicity_mass",
                                   "metallicity", "bh_mass", "bulge_mass", "reservoir_mvir",
                                   "reservoir_stars", "reservoir_cold", "reservoir_hot",
@@ -413,6 +414,23 @@ class Model:
         self.properties["BTF_mass"].extend(list(baryon_mass))
         self.properties["BTF_vel"].extend(list(velocity))
 
+
+    def calc_SFR(self, gals):
+
+        non_zero_stellar = np.where(gals["StellarMass"][:] > 0.0)[0]
+
+        stellar_mass = np.log10(gals["StellarMass"][:][non_zero_stellar] * 1.0e10 / self.hubble_h)
+        SFR = (gals["SfrDisk"][:][non_zero_stellar] + gals["SfrBulge"][:][non_zero_stellar])
+
+        # `stellar_mass` and `SFR` have length < length(gals).
+        # Hence when we take a random sample, we use length of those arrays.
+        if len(non_zero_stellar) > self.file_sample_size:
+            random_inds = np.random.choice(np.arange(len(non_zero_stellar)), size=self.file_sample_size)
+        else:
+            random_inds = np.arange(len(non_zero_stellar))
+
+        self.properties["SFR_mass"].extend(list(stellar_mass[random_inds]))
+        self.properties["SFR_SFR"].extend(list(np.log10(SFR[random_inds])))
 
     def calc_sSFR(self, gals):
 

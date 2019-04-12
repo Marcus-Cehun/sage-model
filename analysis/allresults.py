@@ -224,19 +224,20 @@ if __name__ == "__main__":
     plot_output_path = "./mini_millennium_plots"  # Will be created if path doesn't exist.
 
     # These toggles specify which plots you want to be made.
-    plot_toggles = {"SMF"             : 1,  # Stellar mass function.
-                    "BMF"             : 1,  # Baryonic mass function.
-                    "GMF"             : 1,  # Gas mass function (cold gas).
-                    "BTF"             : 1,  # Baryonic Tully-Fisher.
-                    "sSFR"            : 1,  # Specific star formation rate.
-                    "gas_frac"        : 1,  # Fraction of galaxy that is cold gas.
-                    "metallicity"     : 1,  # Metallicity scatter plot.
-                    "bh_bulge"        : 1,  # Black hole-bulge relationship.
-                    "quiescent"       : 1,  # Fraction of galaxies that are quiescent.
-                    "bulge_fraction"  : 1,  # Fraction of galaxies that are bulge/disc dominated.
-                    "baryon_fraction" : 1,  # Fraction of baryons in galaxy/reservoir.
-                    "reservoirs"      : 1,  # Mass in each reservoir.
-                    "spatial"         : 1}  # Spatial distribution of galaxies.
+    plot_toggles = {"SMF"             : 0,  # Stellar mass function.
+                    "BMF"             : 0,  # Baryonic mass function.
+                    "GMF"             : 0,  # Gas mass function (cold gas).
+                    "BTF"             : 0,  # Baryonic Tully-Fisher.
+                    "SFR"             : 1,  # Star formation rate.
+                    "sSFR"            : 0,  # Specific star formation rate.
+                    "gas_frac"        : 0,  # Fraction of galaxy that is cold gas.
+                    "metallicity"     : 0,  # Metallicity scatter plot.
+                    "bh_bulge"        : 0,  # Black hole-bulge relationship.
+                    "quiescent"       : 0,  # Fraction of galaxies that are quiescent.
+                    "bulge_fraction"  : 0,  # Fraction of galaxies that are bulge/disc dominated.
+                    "baryon_fraction" : 0,  # Fraction of baryons in galaxy/reservoir.
+                    "reservoirs"      : 0,  # Mass in each reservoir.
+                    "spatial"         : 0}  # Spatial distribution of galaxies.
 
     ############################
     ## DON'T TOUCH BELOW HERE ##
