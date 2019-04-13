@@ -189,9 +189,9 @@ if __name__ == "__main__":
     # specified if using binary output. HDF5 will automatically detect these.
     # `hdf5_snapshot` is only nedded if using HDF5 output.
 
-    model0_sage_output_format  = "sage_binary"  # Format SAGE output in. "sage_binary" or "sage_hdf5".
+    model0_sage_output_format  = "sage_hdf5"  # Format SAGE output in. "sage_binary" or "sage_hdf5".
     model0_dir_name            = "../output/mini_millennium/"
-    model0_file_name           = "model_z0.000"
+    model0_file_name           = "model.hdf5"
     model0_IMF                 = "Chabrier"  # Chabrier or Salpeter.
     model0_model_label         = "Mini-Millennium"
     model0_color               = "r"
@@ -221,14 +221,15 @@ if __name__ == "__main__":
 
     # A couple of extra variables...
     plot_output_format    = ".png"
-    plot_output_path = "./mini_millennium_plots"  # Will be created if path doesn't exist.
+    plot_output_path = "./mini_millennium_hdf5_plots"  # Will be created if path doesn't exist.
 
     # These toggles specify which plots you want to be made.
-    plot_toggles = {"SMF"             : 0,  # Stellar mass function.
+    plot_toggles = {"SMF"             : 1,  # Stellar mass function.
                     "BMF"             : 0,  # Baryonic mass function.
                     "GMF"             : 0,  # Gas mass function (cold gas).
                     "BTF"             : 0,  # Baryonic Tully-Fisher.
                     "SFR"             : 1,  # Star formation rate.
+                    "SFR_binned"      : 1,  # Star formation rate binned.
                     "sSFR"            : 0,  # Specific star formation rate.
                     "gas_frac"        : 0,  # Fraction of galaxy that is cold gas.
                     "metallicity"     : 0,  # Metallicity scatter plot.

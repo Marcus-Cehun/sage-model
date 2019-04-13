@@ -453,6 +453,90 @@ def plot_SFR(results):
     print("Saved file to {0}".format(output_file))
     plt.close()
 
+def plot_SFR_binned(results, plot_var=True):
+    """
+    Plots the Star Formation Rate as a function
+    of stellar mass for the models within the ``Results`` class instance.
+
+    Parameters
+    ==========
+
+    results : ``Results`` class instance
+        Class instance that contains the calculated properties for all the models.  The
+        class is defined in the ``allresults.py`` with the individual ``Model`` classes
+        and properties defined and calculated in the ``model.py`` module.
+
+    plot_var : Boolean, default False
+        If ``True``, plots the variance as shaded regions.
+
+    Returns
+    =======
+
+    None.  The plot will be saved as "<results.plot_output_path>/6.StarFormationRateBinned<results.plot_output_path>"
+    """
+
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+
+    for model in results.models:
+
+        model_label = model.model_label
+        color = model.color
+        linestyle = model.linestyle
+
+        # Set the x-axis values to be the centre of the bins.
+        bin_middles = model.mass_bins + 0.5 * model.mass_bin_width
+
+        # Remember we need to average the properties in each bin.
+        SFR_mean = model.properties["SFR_sum"] / model.properties["SMF"]
+
+        # The variance has already been weighted when we calculated it.
+        SFR_var = model.properties["SFR_var"]
+
+        # We will keep the colour scheme consistent, but change the line styles.
+        ax.plot(bin_middles[:-1], np.log10(SFR_mean), label=model_label + " SFR",
+                color=color, linestyle="-")
+
+        if plot_var:
+            #print(SFR_mean[model.properties["SMF"] > 0])
+            #print(SFR_var[model.properties["SMF"] > 0])
+            #print(SFR_mean)
+            #print(SFR_var)
+            #print(SFR_mean-SFR_var)
+            #exit()
+            #print(SFR_var)
+            #print(bin_middles[:-1])
+            #print(model.properties["SMF"]
+            upper = np.log10(SFR_mean+SFR_var)
+            lower_dummy = SFR_mean-SFR_var
+            lower = np.empty(len(SFR_mean))
+            for i in range(len(SFR_mean)):
+                if lower_dummy[i]>0:
+                    lower[i] = np.log10(SFR_mean[i]-SFR_var[i])
+                else:
+                    lower[i] = np.log10(SFR_mean[i])
+            ax.fill_between(bin_middles[:-1], upper, lower,
+                            facecolor=color, alpha=0.25)
+
+    ax.set_xlabel(r"$\log_{10} M_{\mathrm{stars}}\ (M_{\odot})$")
+    ax.set_ylabel(r"$\log_{10}\ \mathrm{SFR} (M_{\odot}\mathrm{yr^{-1}})$")
+
+    ax.set_xlim([8.0, 12.0])
+    ax.set_ylim([-4.0, 2.0])
+
+    ax.xaxis.set_minor_locator(plt.MultipleLocator(0.05))
+    ax.yaxis.set_minor_locator(plt.MultipleLocator(0.25))
+
+    adjust_legend(ax, location="upper left", scatter_plot=0)
+
+    fig.tight_layout()
+
+    output_file = "{0}/6.StarFormationRateBinned{1}".format(results.plot_output_path, results.plot_output_format)
+    fig.savefig(output_file)
+    print("Saved file to {0}".format(output_file))
+    plt.close()
+
+
 def plot_sSFR(results):
     """
     Plots the specific star formation rate as a function of stellar mass for the models within the
