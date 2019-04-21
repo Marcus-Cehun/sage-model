@@ -221,7 +221,7 @@ class Model:
                                   "metallicity", "bh_mass", "bulge_mass", "reservoir_mvir",
                                   "reservoir_stars", "reservoir_cold", "reservoir_hot",
                                   "reservoir_ejected", "reservoir_ICS", "x_pos",
-                                  "y_pos", "z_pos"]
+                                  "y_pos", "z_pos", "GalaxyID_List"]
 
         # Initialize empty lists.
         for my_property in scatter_property_names:
@@ -352,8 +352,14 @@ class Model:
                     msg += "\nPLEASE SCROLL UP AND MAKE SURE YOU'RE READING ALL ERROR " \
                            "MESSAGES! THEY'RE EASY TO MISS! :)"
                     raise AttributeError(msg)
+    
+    
+#    def calc_GalaxyID_List(self, gals):
+       
+ #       GalaxyIDs = gals["GalaxyIndex"] 
+  #      self.properties["GalaxyID_List"] = GalaxyIDs
 
-
+    
     def calc_SMF(self, gals):
 
         non_zero_stellar = np.where(gals["StellarMass"][:] > 0.0)[0]

@@ -439,7 +439,7 @@ def plot_SFR(results):
     ax.set_ylabel(r"$\log_{10}\ \mathrm{SFR} (M_{\odot}\mathrm{yr^{-1}})$")
 
     ax.set_xlim([8.0, 12.0])
-    ax.set_ylim([-4.0, 2.0])
+    ax.set_ylim([-4.0, 3.0])
 
     ax.xaxis.set_minor_locator(plt.MultipleLocator(0.05))
     ax.yaxis.set_minor_locator(plt.MultipleLocator(0.25))
@@ -453,7 +453,7 @@ def plot_SFR(results):
     print("Saved file to {0}".format(output_file))
     plt.close()
 
-def plot_SFR_binned(results, plot_var=True):
+def plot_SFR_binned(results, plot_var=False):
     """
     Plots the Star Formation Rate as a function
     of stellar mass for the models within the ``Results`` class instance.
@@ -522,12 +522,12 @@ def plot_SFR_binned(results, plot_var=True):
     ax.set_ylabel(r"$\log_{10}\ \mathrm{SFR} (M_{\odot}\mathrm{yr^{-1}})$")
 
     ax.set_xlim([8.0, 12.0])
-    ax.set_ylim([-4.0, 2.0])
+    ax.set_ylim([-4.0, 3.0])
 
     ax.xaxis.set_minor_locator(plt.MultipleLocator(0.05))
     ax.yaxis.set_minor_locator(plt.MultipleLocator(0.25))
 
-    adjust_legend(ax, location="upper left", scatter_plot=0)
+    adjust_legend(ax, location="lower right", scatter_plot=0)
 
     fig.tight_layout()
 

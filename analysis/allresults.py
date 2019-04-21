@@ -101,7 +101,7 @@ class Results:
 
         None.
         """
-
+        self.IDs_to_Process = None
         self.num_models = len(all_models_dict["model_path"])
         self.plot_output_path = plot_output_path
 
@@ -193,42 +193,165 @@ if __name__ == "__main__":
     model0_dir_name            = "../output/mini_millennium/"
     model0_file_name           = "model.hdf5"
     model0_IMF                 = "Chabrier"  # Chabrier or Salpeter.
-    model0_model_label         = "Mini-Millennium"
+    model0_model_label         = "z=0"
     model0_color               = "r"
     model0_linestyle           = "-"
     model0_marker              = "x"
     model0_first_file          = 0  # The files read in will be [first_file, last_file]
     model0_last_file           = 0  # This is a closed interval.
     model0_simulation          = "Mini-Millennium"  # Sets the cosmology. Required for "sage_binary".
-    model0_hdf5_snapshot       = 63  # Snapshot we're plotting the HDF5 data at.
+    model0_hdf5_snapshot       = 63 # Snapshot we're plotting the HDF5 data at.
     model0_num_tree_files_used = 8  # Number of tree files processed by SAGE to produce this output.
 
+    model0_5_sage_output_format  = "sage_hdf5"  # Format SAGE output in. "sage_binary" or "sage_hdf5".
+    model0_5_dir_name            = "../output/mini_millennium/"
+    model0_5_file_name           = "model.hdf5"
+    model0_5_IMF                 = "Chabrier"  # Chabrier or Salpeter.
+    model0_5_model_label         = "z=0.5"
+    model0_5_color               = "g"
+    model0_5_linestyle           = "-"
+    model0_5_marker              = "x"
+    model0_5_first_file          = 0  # The files read in will be [first_file, last_file]
+    model0_5_last_file           = 0  # This is a closed interval.
+    model0_5_simulation          = "Mini-Millennium"  # Sets the cosmology. Required for "sage_binary".
+    model0_5_hdf5_snapshot       = 48 # Snapshot we're plotting the HDF5 data at.
+    model0_5_num_tree_files_used = 8  # Number of tree files processed by SAGE to produce this output.
+
+    model1_sage_output_format  = "sage_hdf5"  # Format SAGE output in. "sage_binary" or "sage_hdf5".
+    model1_dir_name            = "../output/mini_millennium/"
+    model1_file_name           = "model.hdf5"
+    model1_IMF                 = "Chabrier"  # Chabrier or Salpeter.
+    model1_model_label         = "z=1"
+    model1_color               = "m"
+    model1_linestyle           = "-"
+    model1_marker              = "x"
+    model1_first_file          = 0  # The files read in will be [first_file, last_file]
+    model1_last_file           = 0  # This is a closed interval.
+    model1_simulation          = "Mini-Millennium"  # Sets the cosmology. Required for "sage_binary".
+    model1_hdf5_snapshot       = 40 # Snapshot we're plotting the HDF5 data at.
+    model1_num_tree_files_used = 8  # Number of tree files processed by SAGE to produce this output.
+    
+    model2_sage_output_format  = "sage_hdf5"  # Format SAGE output in. "sage_binary" or "sage_hdf5".
+    model2_dir_name            = "../output/mini_millennium/"
+    model2_file_name           = "model.hdf5"
+    model2_IMF                 = "Chabrier"  # Chabrier or Salpeter.
+    model2_model_label         = "z=2"
+    model2_color               = "k"
+    model2_linestyle           = "-"
+    model2_marker              = "x"
+    model2_first_file          = 0  # The files read in will be [first_file, last_file]
+    model2_last_file           = 0  # This is a closed interval.
+    model2_simulation          = "Mini-Millennium"  # Sets the cosmology. Required for "sage_binary".
+    model2_hdf5_snapshot       = 32 # Snapshot we're plotting the HDF5 data at.
+    model2_num_tree_files_used = 8  # Number of tree files processed by SAGE to produce this output.
+    
+    model3_sage_output_format  = "sage_hdf5"  # Format SAGE output in. "sage_binary" or "sage_hdf5".
+    model3_dir_name            = "../output/mini_millennium/"
+    model3_file_name           = "model.hdf5"
+    model3_IMF                 = "Chabrier"  # Chabrier or Salpeter.
+    model3_model_label         = "z=3"
+    model3_color               = "y"
+    model3_linestyle           = "-"
+    model3_marker              = "x"
+    model3_first_file          = 0  # The files read in will be [first_file, last_file]
+    model3_last_file           = 0  # This is a closed interval.
+    model3_simulation          = "Mini-Millennium"  # Sets the cosmology. Required for "sage_binary".
+    model3_hdf5_snapshot       = 27 # Snapshot we're plotting the HDF5 data at.
+    model3_num_tree_files_used = 8  # Number of tree files processed by SAGE to produce this output.
+    
+    model4_5_sage_output_format  = "sage_hdf5"  # Format SAGE output in. "sage_binary" or "sage_hdf5".
+    model4_5_dir_name            = "../output/mini_millennium/"
+    model4_5_file_name           = "model.hdf5"
+    model4_5_IMF                 = "Chabrier"  # Chabrier or Salpeter.
+    model4_5_model_label         = "z=4.5"
+    model4_5_color               = "b"
+    model4_5_linestyle           = "-"
+    model4_5_marker              = "x"
+    model4_5_first_file          = 0  # The files read in will be [first_file, last_file]
+    model4_5_last_file           = 0  # This is a closed interval.
+    model4_5_simulation          = "Mini-Millennium"  # Sets the cosmology. Required for "sage_binary".
+    model4_5_hdf5_snapshot       = 22 # Snapshot we're plotting the HDF5 data at.
+    model4_5_num_tree_files_used = 8  # Number of tree files processed by SAGE to produce this output.
+    
+    model6_2_sage_output_format  = "sage_hdf5"  # Format SAGE output in. "sage_binary" or "sage_hdf5".
+    model6_2_dir_name            = "../output/mini_millennium/"
+    model6_2_file_name           = "model.hdf5"
+    model6_2_IMF                 = "Chabrier"  # Chabrier or Salpeter.
+    model6_2_model_label         = "z=6.2"
+    model6_2_color               = "c"
+    model6_2_linestyle           = "-"
+    model6_2_marker              = "x"
+    model6_2_first_file          = 0  # The files read in will be [first_file, last_file]
+    model6_2_last_file           = 0  # This is a closed interval.
+    model6_2_simulation          = "Mini-Millennium"  # Sets the cosmology. Required for "sage_binary".
+    model6_2_hdf5_snapshot       = 18 # Snapshot we're plotting the HDF5 data at.
+    model6_2_num_tree_files_used = 8  # Number of tree files processed by SAGE to produce this output.
+    
+    model10_sage_output_format  = "sage_hdf5"  # Format SAGE output in. "sage_binary" or "sage_hdf5".
+    model10_dir_name            = "../output/mini_millennium/"
+    model10_file_name           = "model.hdf5"
+    model10_IMF                 = "Chabrier"  # Chabrier or Salpeter.
+    model10_model_label         = "z=10"
+    model10_color               = "0.75"
+    model10_linestyle           = "-"
+    model10_marker              = "x"
+    model10_first_file          = 0  # The files read in will be [first_file, last_file]
+    model10_last_file           = 0  # This is a closed interval.
+    model10_simulation          = "Mini-Millennium"  # Sets the cosmology. Required for "sage_binary".
+    model10_hdf5_snapshot       = 12 # Snapshot we're plotting the HDF5 data at.
+    model10_num_tree_files_used = 8  # Number of tree files processed by SAGE to produce this output.
+    
+    
     # Then extend each of these lists for all the models that you want to plot.
     # E.g., 'dir_names = [model0_dir_name, model1_dir_name, ..., modelN_dir_name]
-    sage_output_formats = [model0_sage_output_format]
-    dir_names           = [model0_dir_name]
-    file_names          = [model0_file_name]
-    IMFs                = [model0_IMF]
-    model_labels        = [model0_model_label]
-    colors              = [model0_color]
-    linestyles          = [model0_linestyle]
-    markers             = [model0_marker]
-    first_files         = [model0_first_file]
-    last_files          = [model0_last_file]
-    simulations         = [model0_simulation]
-    hdf5_snapshots      = [model0_hdf5_snapshot]
-    num_tree_files_used = [model0_num_tree_files_used]
-
+    sage_output_formats = [model0_sage_output_format, model0_5_sage_output_format, 
+                        model1_sage_output_format, model2_sage_output_format, 
+                        model3_sage_output_format, model4_5_sage_output_format, 
+                        model6_2_sage_output_format, model10_sage_output_format]
+    dir_names           = [model0_dir_name, model0_5_dir_name, model1_dir_name, model2_dir_name, 
+                        model3_dir_name, model4_5_dir_name, model6_2_dir_name, model10_dir_name]
+    file_names          = [model0_file_name, model0_5_file_name, model1_file_name,
+                         model2_file_name, model3_file_name, model4_5_file_name,
+                        model6_2_file_name, model10_file_name]
+    IMFs                = [model0_IMF, model0_5_IMF, model1_IMF, model2_IMF, model3_IMF, model4_5_IMF,
+                        model6_2_IMF, model10_IMF]
+    model_labels        = [model0_model_label, model0_5_model_label, model1_model_label,
+                        model2_model_label, model3_model_label, model4_5_model_label,
+                        model6_2_model_label, model10_model_label]
+    colors              = [model0_color, model0_5_color, model1_color, model2_color, 
+                        model3_color, model4_5_color, model6_2_color, model10_color]
+    linestyles          = [model0_linestyle, model0_5_linestyle, model1_linestyle, 
+                        model2_linestyle, model3_linestyle, model4_5_linestyle, 
+                        model6_2_linestyle, model10_linestyle]
+    markers             = [model0_marker, model0_5_marker, model1_marker, model2_marker, 
+                        model3_marker, model4_5_marker, model6_2_marker, model10_marker]
+    first_files         = [model0_first_file, model0_5_first_file, model1_first_file, 
+                        model2_first_file, model3_first_file, model4_5_first_file, 
+                        model6_2_first_file, model10_first_file]
+    last_files          = [model0_last_file, model0_5_last_file, model1_last_file, 
+                        model2_last_file, model3_last_file, model4_5_last_file, 
+                        model6_2_last_file, model10_last_file]
+    simulations         = [model0_simulation, model0_5_simulation, model1_simulation, 
+                        model2_simulation, model3_simulation, model4_5_simulation, 
+                        model6_2_simulation, model10_simulation]
+    hdf5_snapshots      = [model0_hdf5_snapshot, model0_5_hdf5_snapshot, model1_hdf5_snapshot, 
+                        model2_hdf5_snapshot, model3_hdf5_snapshot, model4_5_hdf5_snapshot, 
+                        model6_2_hdf5_snapshot, model10_hdf5_snapshot]
+    num_tree_files_used = [model0_num_tree_files_used, model0_5_num_tree_files_used, 
+                        model1_num_tree_files_used, model2_num_tree_files_used, 
+                        model3_num_tree_files_used, model4_5_num_tree_files_used, 
+                        model6_2_num_tree_files_used, model10_num_tree_files_used]
+    
     # A couple of extra variables...
     plot_output_format    = ".png"
     plot_output_path = "./mini_millennium_hdf5_plots"  # Will be created if path doesn't exist.
 
     # These toggles specify which plots you want to be made.
-    plot_toggles = {"SMF"             : 1,  # Stellar mass function.
+    plot_toggles = {"SMF"             : 0,  # Stellar mass function.
                     "BMF"             : 0,  # Baryonic mass function.
                     "GMF"             : 0,  # Gas mass function (cold gas).
                     "BTF"             : 0,  # Baryonic Tully-Fisher.
-                    "SFR"             : 1,  # Star formation rate.
+                    "SFR"             : 0,  # Star formation rate.
                     "SFR_binned"      : 1,  # Star formation rate binned.
                     "sSFR"            : 0,  # Specific star formation rate.
                     "gas_frac"        : 0,  # Fraction of galaxy that is cold gas.
