@@ -242,7 +242,8 @@ class Model:
             self.properties[my_property] = 0.0
 
 
-    def calc_properties_all_files(self, close_file=True, use_pbar=True, debug=False):
+    def calc_properties_all_files(self, close_file=True, use_pbar=True, debug=False,
+                                  IDs_to_Process=None):
         """
         Calculates galaxy properties for all files of a single Model.
 
@@ -258,7 +259,11 @@ class Model:
 
         debug : Boolean, default False
             If set, prints out extra useful debug information.
-
+        
+        IDs_to_Process : numpy array, default None
+            If not None, will calculate properties for only
+            the galaxies passed in by IDs_to_Process
+        
         Returns
         -------
 
@@ -292,8 +297,27 @@ class Model:
             # We may have skipped a file.
             if gals is None:
                 continue
+           
+            # If we want to process only a certain category of galaxy, we will pass
+            # the IDs needed to identify them. 
+            if IDs_to_Process is not None:
+                # Initiate an empty array to be filled with booleans
+                boo_array = []
+                # Turn IDs_to_Process into a set, for faster operation.
+                IDs_to_Process = set(IDs_to_Process)
+                # Operate over num_gals to build boolean array
+                for gal_index in range(self.num_gals):
+                    # Value returns boolean True where "GalaxyIndex" = IDs_to_Process
+                    value = gals["GalaxyIndex"][gal_index] in IDs_to_Process
+                    # Boolean array built to be passed into functions as required.
+                    boo_array.append(value)
+                boo_array = np.array(boo_array)
+            else:
+                # If no IDs are specified, then boo_array must be all True.
+                # This will calculate properties for all galaxies.
+                boo_array = np.full(self.num_gals, True)
 
-            self.calc_properties(gals)
+            self.calc_properties(gals, boo_array)
 
         # Some data formats (e.g., HDF5) have a single file we read from.
         # For other formats, this method doesn't exist. Note: If we're calculating
@@ -312,7 +336,7 @@ class Model:
             print("")
 
 
-    def calc_properties(self, gals):
+    def calc_properties(self, gals, boo_array=None):
         """
         Calculates galaxy properties for a single file of galaxies.
 
@@ -321,6 +345,9 @@ class Model:
 
         gals : ``numpy`` structured array with format given by ``Model.get_galaxy_struct()``
             The galaxies for this file.
+        
+        boo_array : boolean array with length num_gals
+            The galaxies properties are to be calculated for.
 
         Returns
         -------
@@ -342,7 +369,7 @@ class Model:
 
                 # If the method doesn't exist, we will hit an `AttributeError`.
                 try:
-                    getattr(self, method_name)(gals)
+                    getattr(self, method_name)(gals, boo_array)
                 except AttributeError:
                     msg = "Tried to calculate properties for plot '{0}'.  However, no " \
                           "method named '{1}' exists in the 'model.py' module.\n" \
@@ -353,11 +380,11 @@ class Model:
                            "MESSAGES! THEY'RE EASY TO MISS! :)"
                     raise AttributeError(msg)
     
-    
-#    def calc_GalaxyID_List(self, gals):
-       
- #       GalaxyIDs = gals["GalaxyIndex"] 
-  #      self.properties["GalaxyID_List"] = GalaxyIDs
+    def calc_GalaxyID_List(self, gals, boo_array):
+        # Calculates a list of galaxies within the model.
+        indices = np.where(boo_array)[0]
+        vals = gals["GalaxyIndex"][:][indices]
+        self.properties["GalaxyID_List"].extend(list(vals))
 
     
     def calc_SMF(self, gals):
@@ -421,9 +448,11 @@ class Model:
         self.properties["BTF_vel"].extend(list(velocity))
 
 
-    def calc_SFR(self, gals):
-
-        non_zero_stellar = np.where(gals["StellarMass"][:] > 0.0)[0]
+    def calc_SFR(self, gals, boo_array):
+        # input of boo_array to calculate for only a given set of galaxies.
+        # np.where & operator finds galaxies with >0 stellar mass and match
+        # the galaxy ID list we want to calculate over.
+        non_zero_stellar = np.where((gals["StellarMass"][:] > 0.0) & boo_array)[0]
 
         stellar_mass = np.log10(gals["StellarMass"][:][non_zero_stellar] * 1.0e10 / self.hubble_h)
         SFR = (gals["SfrDisk"][:][non_zero_stellar] + gals["SfrBulge"][:][non_zero_stellar])
@@ -438,9 +467,9 @@ class Model:
         self.properties["SFR_mass"].extend(list(stellar_mass[random_inds]))
         self.properties["SFR_SFR"].extend(list(np.log10(SFR[random_inds])))
     
-    def calc_SFR_binned(self, gals):
+    def calc_SFR_binned(self, gals, boo_array):
 
-        non_zero_stellar = np.where(gals["StellarMass"][:] > 0.0)[0]
+        non_zero_stellar = np.where((gals["StellarMass"][:] > 0.0) & boo_array)[0]
 
         stellar_mass = np.log10(gals["StellarMass"][:][non_zero_stellar] * 1.0e10 / self.hubble_h)
         

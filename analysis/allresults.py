@@ -69,7 +69,7 @@ class Results:
     """
 
     def __init__(self, all_models_dict, plot_toggles, plot_output_path="./plots",
-                 plot_output_format=".png", debug=False):
+                 plot_output_format=".png", debug=False, IDs_to_Process=None):
         """
         Initialises the individual ``Model`` class instances and adds them to
         the ``Results`` class instance.
@@ -95,13 +95,17 @@ class Results:
 
         debug : {0, 1}, default 0
             Flag whether to print out useful debugging information.
+        
+        IDs_to_Process : numpy array, default "None"
+            Array of galaxy IDs that should be plotted. Should be
+            None if you wish to plot all galaxies. Otherwise
+            define the model you wish to take the galaxies from.
 
         Returns
         -------
 
         None.
         """
-        self.IDs_to_Process = None
         self.num_models = len(all_models_dict["model_path"])
         self.plot_output_path = plot_output_path
 
@@ -116,7 +120,6 @@ class Results:
         # Now let's go through each model, build an individual dictionary for
         # that model and then create a Model instance using it.
         for model_num in range(self.num_models):
-
             model_dict = {}
             for field in all_models_dict.keys():
                 model_dict[field] = all_models_dict[field][model_num]
@@ -133,7 +136,7 @@ class Results:
 
             # To be more memory concious, we calculate the required properties on a
             # file-by-file basis. This ensures we do not keep ALL the galaxy data in memory.
-            model.calc_properties_all_files(debug=debug)
+            model.calc_properties_all_files(debug=debug, IDs_to_Process=IDs_to_Process)
 
             all_models.append(model)
 
@@ -399,8 +402,42 @@ if __name__ == "__main__":
                    "num_tree_files_used" : num_tree_files_used}
 
     # Read in the galaxies and calculate properties for each model.
+
+    # Generate model 0 dictionary.
+    # Instantiate model 0.
+
+    ###################
+    # Here we calculate just model 0 in order to read in galaxies of
+    # redshift 0.
+    
+    model0_dict = {}
+    # We only want to calculate the GalaxyID_list, so set toggle to 1
+    model0_plot_toggles = {"GalaxyID_List" :1}
+    # Loop over 
+    for field in model_dict.keys():
+        model0_dict[field] = model_dict[field][0]
+
+    # Use the correct subclass depending upon the format SAGE wrote in.
+    if model0_dict["sage_output_format"] == "sage_binary":
+        model = SageBinaryModel(model0_dict, model0_plot_toggles)
+    elif model0_dict["sage_output_format"] == "sage_hdf5":
+        model = SageHdf5Model(model0_dict, model0_plot_toggles)
+
+
+    
+    model.set_cosmology()
+
+    # To be more memory concious, we calculate the required properties on a
+    # file-by-file basis. This ensures we do not keep ALL the galaxy data in memory.
+    # Calculate model properties for model 0
+    model.calc_properties_all_files(debug=True, IDs_to_Process=None)
+    # Pass calculated GalaxyID_list to IDs_to_Process
+    IDs_to_Process = model.properties["GalaxyID_List"] 
+    ################
+
+    # Pass IDs_to_Process to Results to plot only selected galaxies.
     results = Results(model_dict, plot_toggles, plot_output_path, plot_output_format,
-                      debug=False)
+                  debug=True, IDs_to_Process=IDs_to_Process)
     results.do_plots()
 
     # Set the error settings to the previous ones so we don't annoy the user.
