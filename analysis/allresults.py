@@ -356,6 +356,7 @@ if __name__ == "__main__":
                     "BTF"             : 0,  # Baryonic Tully-Fisher.
                     "SFR"             : 0,  # Star formation rate.
                     "SFR_binned"      : 1,  # Star formation rate binned.
+                    "Cold_gas_mass"   : 1,  # Cold gas mass binned to stellar mass
                     "sSFR"            : 0,  # Specific star formation rate.
                     "gas_frac"        : 0,  # Fraction of galaxy that is cold gas.
                     "metallicity"     : 0,  # Metallicity scatter plot.
@@ -432,7 +433,7 @@ if __name__ == "__main__":
     # Calculate model properties for model 0
     model.calc_properties_all_files(debug=True, IDs_to_Process=None)
     # Pass calculated GalaxyID_list to IDs_to_Process
-    IDs_to_Process = model.properties["GalaxyID_List"] 
+    IDs_to_Process = None#model.properties["GalaxyID_List"] 
     ################
 
     # Pass IDs_to_Process to Results to plot only selected galaxies.

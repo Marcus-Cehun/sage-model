@@ -191,7 +191,8 @@ class Model:
                                   "centrals_MF", "satellites_MF", "quiescent_galaxy_counts",
                                   "quiescent_centrals_counts", "quiescent_satellites_counts",
                                   "fraction_bulge_sum", "fraction_bulge_var",
-                                  "fraction_disk_sum", "fraction_disk_var", "SFR_sum", "SFR_var"] 
+                                  "fraction_disk_sum", "fraction_disk_var", "SFR_sum", "SFR_var", 
+                                  "Cold_sum", "Cold_var"] 
 
         # The following properties are binned on halo mass but use the same bins.
         halo_property_names = ["fof_HMF"]
@@ -500,6 +501,37 @@ class Model:
         self.properties["SFR_var"] += SFR_var / self.num_files
 
 
+    def calc_Cold_gas_mass(self, gals, boo_array):
+
+        non_zero_stellar = np.where((gals["StellarMass"][:] > 0.0) & boo_array)[0]
+
+        stellar_mass = np.log10(gals["StellarMass"][:][non_zero_stellar] * 1.0e10 / self.hubble_h)
+        
+        Cold_mass = (gals["ColdGas"][:][non_zero_stellar])
+
+        # When plotting, we scale the fraction of each galaxy type the total number of
+        # galaxies in that bin. This is the Stellar Mass Function.
+        # So check if we're calculating the SMF already, and if not, calculate it here.
+        try:
+            if self.plot_toggles["SMF"]:
+                pass
+            else:
+                self.calc_SMF(gals)
+        # Maybe the user removed "SMF" from the plot toggles...
+        except KeyError:
+            self.calc_SMF(gals)
+
+        # We want the mean bulge/disk fraction as a function of stellar mass. To allow
+        # us to sum across each file, we will record the sum in each bin and then average later.
+        Cold_sum, _, _ = stats.binned_statistic(stellar_mass, Cold_mass,
+                                                          statistic=np.sum, bins=self.mass_bins)
+        self.properties["Cold_sum"] += Cold_sum
+
+        # For the variance, weight these by the total number of samples we will be
+        # averaging over (i.e., number of files).
+        Cold_var, _, _ = stats.binned_statistic(stellar_mass, Cold_mass,
+                                                          statistic=np.var, bins=self.mass_bins)
+        self.properties["Cold_var"] += Cold_var / self.num_files
 
     def calc_sSFR(self, gals):
 

@@ -535,6 +535,90 @@ def plot_SFR_binned(results, plot_var=False):
     fig.savefig(output_file)
     print("Saved file to {0}".format(output_file))
     plt.close()
+    
+
+def plot_Cold_gas_mass(results, plot_var=False):
+    """
+    Plots the Cold Gas Mass as a function
+    of stellar mass for the models within the ``Results`` class instance.
+
+    Parameters
+    ==========
+
+    results : ``Results`` class instance
+        Class instance that contains the calculated properties for all the models.  The
+        class is defined in the ``allresults.py`` with the individual ``Model`` classes
+        and properties defined and calculated in the ``model.py`` module.
+
+    plot_var : Boolean, default False
+        If ``True``, plots the variance as shaded regions.
+
+    Returns
+    =======
+
+    None.  The plot will be saved as "<results.plot_output_path>/6.StarFormationRateBinned<results.plot_output_path>"
+    """
+
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+
+    for model in results.models:
+
+        model_label = model.model_label
+        color = model.color
+        linestyle = model.linestyle
+
+        # Set the x-axis values to be the centre of the bins.
+        bin_middles = model.mass_bins + 0.5 * model.mass_bin_width
+
+        # Remember we need to average the properties in each bin.
+        Cold_mean = model.properties["Cold_sum"] / model.properties["SMF"]
+
+        # The variance has already been weighted when we calculated it.
+        Cold_var = model.properties["Cold_var"]
+
+        # We will keep the colour scheme consistent, but change the line styles.
+        ax.plot(bin_middles[:-1], np.log10(Cold_mean), label=model_label + " Cold Gas Mass",
+                color=color, linestyle="-")
+
+        if plot_var:
+            #print(Cold_mean[model.properties["SMF"] > 0])
+            #print(Cold_var[model.properties["SMF"] > 0])
+            #print(Cold_mean)
+            #print(Cold_var)
+            #print(Cold_mean-Cold_var)
+            #exit()
+            #print(Cold_var)
+            #print(bin_middles[:-1])
+            #print(model.properties["SMF"]
+            upper = np.log10(Cold_mean+Cold_var)
+            lower_dummy = Cold_mean-Cold_var
+            lower = np.empty(len(Cold_mean))
+            for i in range(len(Cold_mean)):
+                if lower_dummy[i]>0:
+                    lower[i] = np.log10(Cold_mean[i]-Cold_var[i])
+                else:
+                    lower[i] = np.log10(Cold_mean[i])
+            ax.fill_between(bin_middles[:-1], upper, lower,
+                            facecolor=color, alpha=0.25)
+
+    ax.set_xlabel(r"$\log_{10} M_{\mathrm{stars}}\ (M_{\odot})$")
+    ax.set_ylabel(r"$\log_{10} M_{\mathrm{Cold}}\ (M_{\odot})$")
+
+    ax.set_xlim([8.0, 12.0])
+    ax.set_ylim([-3.0, 1.0])
+
+    ax.xaxis.set_minor_locator(plt.MultipleLocator(0.05))
+    ax.yaxis.set_minor_locator(plt.MultipleLocator(0.25))
+
+    adjust_legend(ax, location="lower right", scatter_plot=0)
+
+    fig.tight_layout()
+
+    output_file = "{0}/7.Cold_gas_mass_Binned{1}".format(results.plot_output_path, results.plot_output_format)
+    fig.savefig(output_file)
+    print("Saved file to {0}".format(output_file))
+    plt.close()
 
 
 def plot_sSFR(results):
