@@ -432,7 +432,8 @@ if __name__ == "__main__":
     # file-by-file basis. This ensures we do not keep ALL the galaxy data in memory.
     # Calculate model properties for model 0
     model.calc_properties_all_files(debug=True, IDs_to_Process=None)
-    # Pass calculated GalaxyID_list to IDs_to_Process
+    # Pass calculated GalaxyID_list to IDs_to_Process or set
+    # to None and comment out the passing if you wish to plot all galaxies.
     IDs_to_Process = None#model.properties["GalaxyID_List"] 
     ################
 
