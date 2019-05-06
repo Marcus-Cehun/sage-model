@@ -454,8 +454,12 @@ class Model:
         # input of boo_array to calculate for only a given set of galaxies.
         # np.where & operator finds galaxies with >0 stellar mass and match
         # the galaxy ID list we want to calculate over.
-        non_zero_stellar = np.where((gals["StellarMass"][:] > 0.0) & boo_array)[0]
-
+        
+        bulgey_gals = np.where(gals["BulgeMass"][:] > 0.5 * gals["StellarMass"][:])
+        
+        non_zero_stellar = np.where((gals["StellarMass"][:] > 0.0) & boo_array & 
+                                    (gals["BulgeMass"][:] / gals["StellarMass"][:] > 0.5))[0]
+        
         stellar_mass = np.log10(gals["StellarMass"][:][non_zero_stellar] * 1.0e10 / self.hubble_h)
         SFR = (gals["SfrDisk"][:][non_zero_stellar] + gals["SfrBulge"][:][non_zero_stellar])
 
@@ -471,12 +475,18 @@ class Model:
     
     def calc_SFR_binned(self, gals, boo_array):
 
-        non_zero_stellar = np.where((gals["StellarMass"][:] > 0.0) & boo_array)[0]
+        non_zero_stellar = np.where((gals["StellarMass"][:] > 0.0) & boo_array & 
+                                    (gals["BulgeMass"][:] / gals["StellarMass"][:] > 0.5))[0]
 
         stellar_mass = np.log10(gals["StellarMass"][:][non_zero_stellar] * 1.0e10 / self.hubble_h)
         
         SFR = (gals["SfrDisk"][:][non_zero_stellar] + gals["SfrBulge"][:][non_zero_stellar])
-
+        
+        non_zero_SFR = np.where(SFR > 0)[0]
+        percentage_non_zero = len(non_zero_SFR)/len(SFR) * 100
+        print(len(SFR))
+        print(percentage_non_zero)
+        
         # When plotting, we scale the fraction of each galaxy type the total number of
         # galaxies in that bin. This is the Stellar Mass Function.
         # So check if we're calculating the SMF already, and if not, calculate it here.

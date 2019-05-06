@@ -352,14 +352,14 @@ if __name__ == "__main__":
     # These toggles specify which plots you want to be made.
     plot_toggles = {"SMF"             : 0,  # Stellar mass function.
                     "BMF"             : 0,  # Baryonic mass function.
-                    "GMF"             : 1,  # Gas mass function (cold gas).
+                    "GMF"             : 0,  # Gas mass function (cold gas).
                     "BTF"             : 0,  # Baryonic Tully-Fisher.
-                    "SFR"             : 0,  # Star formation rate.
+                    "SFR"             : 1,  # Star formation rate.
                     "SFR_binned"      : 1,  # Star formation rate binned.
-                    "Cold_gas_mass"   : 1,  # Cold gas mass binned to stellar mass
-                    "t_dyn"           : 1,  # Dynamical timescale as a function of stellar mass
+                    "Cold_gas_mass"   : 0,  # Cold gas mass binned to stellar mass
+                    "t_dyn"           : 0,  # Dynamical timescale as a function of stellar mass
                     "sSFR"            : 0,  # Specific star formation rate.
-                    "gas_frac"        : 1,  # Fraction of galaxy that is cold gas.
+                    "gas_frac"        : 0,  # Fraction of galaxy that is cold gas.
                     "metallicity"     : 0,  # Metallicity scatter plot.
                     "bh_bulge"        : 0,  # Black hole-bulge relationship.
                     "quiescent"       : 0,  # Fraction of galaxies that are quiescent.
