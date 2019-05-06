@@ -824,12 +824,14 @@ class Model:
             self.properties[attribute_name] = attribute_value
 
 
-    def calc_SFRD(self, gals):
+    def calc_SFRD(self, gals, boo_array):
 
         # Check if the Snapshot is required.
         if gals["SnapNum"][0] in self.density_snaps:
 
-            SFR = gals["SfrDisk"][:] + gals["SfrBulge"][:]
+            wanted_gals = np.where(gals & boo_array)[0]
+
+            SFR = gals["SfrDisk"][:][wanted_gals] + gals["SfrBulge"][:][wanted_gals]
             self.properties["SFRD"] += np.sum(SFR)
 
 
