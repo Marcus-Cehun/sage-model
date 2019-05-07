@@ -156,22 +156,22 @@ class TemporalResults:
             # Update to snapshot 63 to make sure we are only getting z=0 galaxies.
             model.update_snapshot(63)
             
-            model0_dict = {}
+            #model0_dict = {}
             # We only want to calculate the GalaxyID_list, so set toggle to 1
-            model0_plot_toggles = {"GalaxyID_List" :1}
+            model_plot_toggles = {"GalaxyID_List" :1}
             # Loop over 
-            for field in model_dict.keys():
-                model0_dict[field] = model_dict[field][0]
+            #for field in model_dict.keys():
+             #   model_dict[field] = model_dict[field][model_num]
 
             # Use the correct subclass depending upon the format SAGE wrote in.
-            if model0_dict["sage_output_format"] == "sage_binary":
-                model = SageBinaryModel(model0_dict, model0_plot_toggles)
-            elif model0_dict["sage_output_format"] == "sage_hdf5":
-                model = SageHdf5Model(model0_dict, model0_plot_toggles)
+            #if model0_dict["sage_output_format"] == "sage_binary":
+              #  model = SageBinaryModel(model0_dict, model0_plot_toggles)
+            #elif model0_dict["sage_output_format"] == "sage_hdf5":
+             #   model = SageHdf5Model(model0_dict, model0_plot_toggles)
 
 
             
-            model.set_cosmology()
+            #model.set_cosmology()
 
             # To be more memory concious, we calculate the required properties on a
             # file-by-file basis. This ensures we do not keep ALL the galaxy data in memory.
@@ -193,7 +193,7 @@ class TemporalResults:
                 model.update_snapshot(snap)
 
                 # Calculate all the properties. Keep the HDF5 file open always.
-                model.calc_properties_all_files(close_file=False, use_pbar=False, debug=debug
+                model.calc_properties_all_files(close_file=False, use_pbar=False, debug=debug, 
                                                 IDs_to_Process=IDs_to_Process)
 
                 # We need to place the SMF inside the dictionary to carry through.
@@ -462,9 +462,9 @@ if __name__ == '__main__':
     plot_output_path = "./plots"  # Will be created if path doesn't exist.
 
     # These toggles specify which plots you want to be made.
-    plot_toggles = {"SFR_cut"         : 1,  # Star formation rate for a given z=0 mass bin.
+    plot_toggles = {"SFR_cut"         : 0,  # Star formation rate for a given z=0 mass bin.
                     "SMF"             : 0,  # Stellar mass function at specified redshifts.
-                    "SFRD"            : 0,  # Star formation rate density at specified snapshots. 
+                    "SFRD"            : 1,  # Star formation rate density at specified snapshots. 
                     "SMD"             : 0}  # Stellar mass density at specified snapshots. 
 
     ############################
@@ -502,12 +502,12 @@ if __name__ == '__main__':
                    "first_file"          : first_files,
                    "last_file"           : last_files,
                    "simulation"          : simulations,
-                   "num_tree_files_used" : num_tree_files_used
+                   "num_tree_files_used" : num_tree_files_used,
                    "mass_cut"            : mass_cuts}
 
     # Read in the galaxies and calculate properties for each model.
     results = TemporalResults(model_dict, plot_toggles, plot_output_path, plot_output_format,
-                              debug=False)
+                              debug=True)
     results.do_plots()
 
     # Set the error settings to the previous ones so we don't annoy the user.
