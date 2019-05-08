@@ -176,7 +176,7 @@ class TemporalResults:
             # To be more memory concious, we calculate the required properties on a
             # file-by-file basis. This ensures we do not keep ALL the galaxy data in memory.
             # Calculate model properties for model 0
-            model.calc_properties_all_files(debug=True, IDs_to_Process=None)
+            model.calc_properties_all_files(close_file=False, debug=True, IDs_to_Process=None)
             # Pass calculated GalaxyID_list to IDs_to_Process or set
             # to None and comment out the passing if you wish to plot all galaxies.
             IDs_to_Process = model.properties["GalaxyID_List"] 
@@ -271,14 +271,14 @@ if __name__ == '__main__':
 
     model0_SMF_z               = [0.0, 0.5, 1.0, 2.0, 3.0, 4.5, 6.2, 10]  # Redshifts you wish to plot the stellar mass function at.
                                  # Will search for the closest simulation redshift.
-    model0_density_z           = -1  # Redshifts you wish to plot the evolution of
+    model0_density_z           = [0.0, 0.5, 1.0, 2.0, 3.0, 4.5, 6.2, 10]  # Redshifts you wish to plot the evolution of
                                      # densities at. Set to -1 for all redshifts.
     model0_alist_file          = "../input/mini_millennium/trees/millennium.a_list"
     model0_sage_output_format  = "sage_hdf5"  # Format SAGE output in. "sage_binary" or "sage_hdf5".
     model0_dir_name            = "../output/mini_millennium"
     model0_file_name           = "model.hdf5"  # If using "sage_binary", doesn't have to end in "_zX.XXX"
     model0_IMF                 = "Chabrier"  # Chabrier or Salpeter.
-    model0_model_label         = "Mini-Millennium"
+    model0_model_label         = "8.0 mass cut"
     model0_color               = "c"
     model0_linestyle           = "-"
     model0_marker              = "x"
@@ -291,14 +291,14 @@ if __name__ == '__main__':
 
     model1_SMF_z               = [0.0, 0.5, 1.0, 2.0, 3.0, 4.5, 6.2, 10]  # Redshifts you wish to plot the stellar mass function at.
                                  # Will search for the closest simulation redshift.
-    model1_density_z           = -1  # Redshifts you wish to plot the evolution of
+    model1_density_z           = [0.0, 0.5, 1.0, 2.0, 3.0, 4.5, 6.2, 10]  # Redshifts you wish to plot the evolution of
                                      # densities at. Set to -1 for all redshifts.
     model1_alist_file          = "../input/mini_millennium/trees/millennium.a_list"
     model1_sage_output_format  = "sage_hdf5"  # Format SAGE output in. "sage_binary" or "sage_hdf5".
     model1_dir_name            = "../output/mini_millennium"
     model1_file_name           = "model.hdf5"  # If using "sage_binary", doesn't have to end in "_zX.XXX"
     model1_IMF                 = "Chabrier"  # Chabrier or Salpeter.
-    model1_model_label         = "Mini-Millennium"
+    model1_model_label         = "8.5 mass cut"
     model1_color               = "c"
     model1_linestyle           = "-"
     model1_marker              = "x"
@@ -310,14 +310,14 @@ if __name__ == '__main__':
 
     model2_SMF_z               = [0.0, 0.5, 1.0, 2.0, 3.0, 4.5, 6.2, 10]  # Redshifts you wish to plot the stellar mass function at.
                                  # Will search for the closest simulation redshift.
-    model2_density_z           = -1  # Redshifts you wish to plot the evolution of
+    model2_density_z           = [0.0, 0.5, 1.0, 2.0, 3.0, 4.5, 6.2, 10]  # Redshifts you wish to plot the evolution of
                                      # densities at. Set to -1 for all redshifts.
     model2_alist_file          = "../input/mini_millennium/trees/millennium.a_list"
     model2_sage_output_format  = "sage_hdf5"  # Format SAGE output in. "sage_binary" or "sage_hdf5".
     model2_dir_name            = "../output/mini_millennium"
     model2_file_name           = "model.hdf5"  # If using "sage_binary", doesn't have to end in "_zX.XXX"
     model2_IMF                 = "Chabrier"  # Chabrier or Salpeter.
-    model2_model_label         = "Mini-Millennium"
+    model2_model_label         = "9.0 mass cut"
     model2_color               = "c"
     model2_linestyle           = "-"
     model2_marker              = "x"
@@ -329,14 +329,14 @@ if __name__ == '__main__':
 
     model3_SMF_z               = [0.0, 0.5, 1.0, 2.0, 3.0, 4.5, 6.2, 10]  # Redshifts you wish to plot the stellar mass function at.
                                  # Will search for the closest simulation redshift.
-    model3_density_z           = -1  # Redshifts you wish to plot the evolution of
+    model3_density_z           = [0.0, 0.5, 1.0, 2.0, 3.0, 4.5, 6.2, 10]  # Redshifts you wish to plot the evolution of
                                      # densities at. Set to -1 for all redshifts.
     model3_alist_file          = "../input/mini_millennium/trees/millennium.a_list"
     model3_sage_output_format  = "sage_hdf5"  # Format SAGE output in. "sage_binary" or "sage_hdf5".
     model3_dir_name            = "../output/mini_millennium"
     model3_file_name           = "model.hdf5"  # If using "sage_binary", doesn't have to end in "_zX.XXX"
     model3_IMF                 = "Chabrier"  # Chabrier or Salpeter.
-    model3_model_label         = "Mini-Millennium"
+    model3_model_label         = "9.5 mass cut"
     model3_color               = "c"
     model3_linestyle           = "-"
     model3_marker              = "x"
@@ -348,14 +348,14 @@ if __name__ == '__main__':
 
     model4_SMF_z               = [0.0, 0.5, 1.0, 2.0, 3.0, 4.5, 6.2, 10]  # Redshifts you wish to plot the stellar mass function at.
                                  # Will search for the closest simulation redshift.
-    model4_density_z           = -1  # Redshifts you wish to plot the evolution of
+    model4_density_z           = [0.0, 0.5, 1.0, 2.0, 3.0, 4.5, 6.2, 10]  # Redshifts you wish to plot the evolution of
                                      # densities at. Set to -1 for all redshifts.
     model4_alist_file          = "../input/mini_millennium/trees/millennium.a_list"
     model4_sage_output_format  = "sage_hdf5"  # Format SAGE output in. "sage_binary" or "sage_hdf5".
     model4_dir_name            = "../output/mini_millennium"
     model4_file_name           = "model.hdf5"  # If using "sage_binary", doesn't have to end in "_zX.XXX"
     model4_IMF                 = "Chabrier"  # Chabrier or Salpeter.
-    model4_model_label         = "Mini-Millennium"
+    model4_model_label         = "10.0 mass cut"
     model4_color               = "c"
     model4_linestyle           = "-"
     model4_marker              = "x"
@@ -367,14 +367,14 @@ if __name__ == '__main__':
 
     model5_SMF_z               = [0.0, 0.5, 1.0, 2.0, 3.0, 4.5, 6.2, 10]  # Redshifts you wish to plot the stellar mass function at.
                                  # Will search for the closest simulation redshift.
-    model5_density_z           = -1  # Redshifts you wish to plot the evolution of
+    model5_density_z           = [0.0, 0.5, 1.0, 2.0, 3.0, 4.5, 6.2, 10]  # Redshifts you wish to plot the evolution of
                                      # densities at. Set to -1 for all redshifts.
     model5_alist_file          = "../input/mini_millennium/trees/millennium.a_list"
     model5_sage_output_format  = "sage_hdf5"  # Format SAGE output in. "sage_binary" or "sage_hdf5".
     model5_dir_name            = "../output/mini_millennium"
     model5_file_name           = "model.hdf5"  # If using "sage_binary", doesn't have to end in "_zX.XXX"
     model5_IMF                 = "Chabrier"  # Chabrier or Salpeter.
-    model5_model_label         = "Mini-Millennium"
+    model5_model_label         = "10.5 mass cut"
     model5_color               = "c"
     model5_linestyle           = "-"
     model5_marker              = "x"
@@ -386,14 +386,14 @@ if __name__ == '__main__':
 
     model6_SMF_z               = [0.0, 0.5, 1.0, 2.0, 3.0, 4.5, 6.2, 10]  # Redshifts you wish to plot the stellar mass function at.
                                  # Will search for the closest simulation redshift.
-    model6_density_z           = -1  # Redshifts you wish to plot the evolution of
+    model6_density_z           = [0.0, 0.5, 1.0, 2.0, 3.0, 4.5, 6.2, 10]  # Redshifts you wish to plot the evolution of
                                      # densities at. Set to -1 for all redshifts.
     model6_alist_file          = "../input/mini_millennium/trees/millennium.a_list"
     model6_sage_output_format  = "sage_hdf5"  # Format SAGE output in. "sage_binary" or "sage_hdf5".
     model6_dir_name            = "../output/mini_millennium"
     model6_file_name           = "model.hdf5"  # If using "sage_binary", doesn't have to end in "_zX.XXX"
     model6_IMF                 = "Chabrier"  # Chabrier or Salpeter.
-    model6_model_label         = "Mini-Millennium"
+    model6_model_label         = "11.0 mass cut"
     model6_color               = "c"
     model6_linestyle           = "-"
     model6_marker              = "x"
@@ -405,14 +405,14 @@ if __name__ == '__main__':
 
     model7_SMF_z               = [0.0, 0.5, 1.0, 2.0, 3.0, 4.5, 6.2, 10]  # Redshifts you wish to plot the stellar mass function at.
                                  # Will search for the closest simulation redshift.
-    model7_density_z           = -1  # Redshifts you wish to plot the evolution of
+    model7_density_z           = [0.0, 0.5, 1.0, 2.0, 3.0, 4.5, 6.2, 10]  # Redshifts you wish to plot the evolution of
                                      # densities at. Set to -1 for all redshifts.
     model7_alist_file          = "../input/mini_millennium/trees/millennium.a_list"
     model7_sage_output_format  = "sage_hdf5"  # Format SAGE output in. "sage_binary" or "sage_hdf5".
     model7_dir_name            = "../output/mini_millennium"
     model7_file_name           = "model.hdf5"  # If using "sage_binary", doesn't have to end in "_zX.XXX"
     model7_IMF                 = "Chabrier"  # Chabrier or Salpeter.
-    model7_model_label         = "Mini-Millennium"
+    model7_model_label         = "11.5 mass cut"
     model7_color               = "c"
     model7_linestyle           = "-"
     model7_marker              = "x"
@@ -459,10 +459,10 @@ if __name__ == '__main__':
 
     # A couple of extra variables...
     plot_output_format    = ".png"
-    plot_output_path = "./plots"  # Will be created if path doesn't exist.
+    plot_output_path = "./mini_millennium_hdf5_plots"  # Will be created if path doesn't exist.
 
     # These toggles specify which plots you want to be made.
-    plot_toggles = {"SFR_cut"         : 0,  # Star formation rate for a given z=0 mass bin.
+    plot_toggles = {"SFR_cut"         : 1,  # Star formation rate for a given z=0 mass bin.
                     "SMF"             : 0,  # Stellar mass function at specified redshifts.
                     "SFRD"            : 1,  # Star formation rate density at specified snapshots. 
                     "SMD"             : 0}  # Stellar mass density at specified snapshots. 

@@ -97,11 +97,17 @@ class SageHdf5Model(Model):
 
         ngals = 0
         snap_key = "Snap_{0}".format(self.hdf5_snapshot)
+        f = self.hdf5_file
+        print(f["Core_0"][snap_key].attrs["num_gals"])
+
+       
+
 
         for core_idx in range(self.first_file, self.last_file + 1):
-
             core_key = "Core_{0}".format(core_idx)            
-            ngals += self.hdf5_file[core_key][snap_key].attrs["num_gals"]
+            print(core_key)
+            print(snap_key)
+            ngals += f[core_key][snap_key].attrs["num_gals"]
 
         self.num_gals = ngals 
 

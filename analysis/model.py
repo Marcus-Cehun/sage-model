@@ -237,7 +237,7 @@ class Model:
         To add another property, add its name to the ``single_property_names`` list.
         """
 
-        single_property_names = ["SFRD", "SMD"]
+        single_property_names = ["SFRD", "SFRD_gal_len", "SMD"]
 
         for my_property in single_property_names:
             self.properties[my_property] = 0.0
@@ -384,13 +384,13 @@ class Model:
     
     def calc_GalaxyID_List(self, gals, boo_array):
         
-        mass_cut_ind = np.where((self.model_dict["mass_cut"] - 0.5 < gals["StellarMass"] < self.model_dict["mass_cut"])
+        mass_cut_ind = np.where(((self.model_dict["mass_cut"] - 0.5) < gals["StellarMass"] < self.model_dict["mass_cut"])
                                 & boo_array)[0]
-        print(mass_cut_ind)
+        #print(mass_cut_ind)
         
         # Calculates a list of galaxies within the model.
         indices = np.where(boo_array)[0]
-        vals = gals["GalaxyIndex"][:][indices]
+        vals = gals["GalaxyIndex"][:][mass_cut_ind]
         self.properties["GalaxyID_List"].extend(list(vals))
 
     
@@ -830,16 +830,30 @@ class Model:
 
 
     def calc_SFRD(self, gals, boo_array):
-        
+        #print(boo_array)
         # Check if the Snapshot is required.
         if gals["SnapNum"][0] in self.density_snaps:
 
-            wanted_gals = np.where(gals[:] & boo_array)[0]
+            wanted_gals = np.where(boo_array)[0]
 
             SFR = gals["SfrDisk"][:][wanted_gals] + gals["SfrBulge"][:][wanted_gals]
             self.properties["SFRD"] += np.sum(SFR)
-
-
+            # Must also pass the length of wanted_gals since we might want to compute a mean SFR.
+            self.properties["SFRD_gal_len"] += len(wanted_gals)
+        
+    def calc_SFR_cut(self,gals,boo_array):
+        # Check if SFRD is plotted and Pass since SFRD calculates what we want.
+        try:
+            if self.plot_toggles["SFRD"]:
+                pass
+            else:
+                self.calc_SFRD(gals,boo_array)
+        # Maybe the user removed "SFRD" from the plot toggles...
+        except KeyError:
+            self.calc_SFRD(gals,boo_array)
+    
+         
+    
     def calc_SMD(self, gals):
 
         # Check if the Snapshot is required.

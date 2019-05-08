@@ -1375,6 +1375,65 @@ def plot_SFRD(temporal_results):
     print("Saved file to {0}".format(output_file))
     plt.close()
 
+def plot_SFR_cut(temporal_results):
+    """
+    Plots the evolution of the star formation rate density for the models within the
+    ``TemporalResults`` class instance.
+
+    Parameters
+    ==========
+
+    temporal_results : ``TemporalResults`` class instance
+        Class instance that contains the calculated properties for all the models.  The
+        class is defined in the ``history.py`` with the individual ``Model`` classes
+        and properties defined and calculated in the ``model.py`` module.
+
+    Returns
+    =======
+
+    None.  The plot will be saved as
+    "<temporal_results.plot_output_path>/B.History-SFR-Density<temporal_results.plot_output_path>"
+    """
+
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+
+    for model in temporal_results.models:
+
+        label = model.model_label
+        color = model.color
+        linestyle = model.linestyle
+
+        # The SFRD is in a dictionary. Pull it out into a array for plotting.
+        SFRD = np.array([model.properties["SFRD_dict"][snap] for snap in model.properties["SFRD_dict"].keys()])
+        # Since we want the mean, divide SFRD by SFR_gal_len that we calculated
+        print(model.properties["SFRD_gal_len"])
+        print(SFRD)
+        SFRD_mean = SFRD / model.properties["SFRD_gal_len"]
+        ax.plot(model.redshifts[model.density_snaps], np.log10(SFRD_mean),
+                label=label, color=color, ls=linestyle)
+
+    #ax = obs.plot_sfrd_data(ax) 
+
+    ax.set_xlabel(r"$\mathrm{redshift}$")
+    ax.set_xlabel(r"$\log_{10} M_{\mathrm{stars}}\ (M_{\odot})$")
+
+    #ax.set_xlim([0.0, 8.0])
+    #ax.set_ylim([-3.0, -0.4])
+
+    ax.xaxis.set_minor_locator(plt.MultipleLocator(1))
+    ax.yaxis.set_minor_locator(plt.MultipleLocator(0.5))
+    
+    adjust_legend(ax, location="lower left", scatter_plot=0)
+
+    fig.tight_layout()
+
+    output_file = "{0}/History-SFR-cut-masses{1}".format(temporal_results.plot_output_path,
+                                                        temporal_results.plot_output_format)
+    fig.savefig(output_file)
+    print("Saved file to {0}".format(output_file))
+    plt.close()
+
 
 def plot_SMD(temporal_results):
     """
