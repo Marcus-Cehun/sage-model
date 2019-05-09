@@ -179,50 +179,50 @@ def plot_temporal_SMF(temporal_results):
     None.  The plot will be saved as
     "<temporal_results.plot_output_path>/A.StellarMassFunction<temporal_results.plot_output_path>"
     """
-
-    fig = plt.figure()
-    ax = fig.add_subplot(111)
+    pass
+ #   fig = plt.figure()
+ #   ax = fig.add_subplot(111)
 
     # Go through each of the models and plot. 
-    for model in temporal_results.models:
+ #   for model in temporal_results.models:
 
-        ls = model.linestyle
+ #       ls = model.linestyle
 
         # Set the x-axis values to be the centre of the bins.
-        bin_middles = model.mass_bins + 0.5 * model.mass_bin_width
+ #       bin_middles = model.mass_bins + 0.5 * model.mass_bin_width
 
         # Iterate over the snapshots.
-        for snap in model.SMF_snaps:
-            model_label = "{0} z = {1:.3f}".format(model.model_label, model.redshifts[snap])
+ #       for snap in model.SMF_snaps:
+ #           model_label = "{0} z = {1:.3f}".format(model.model_label, model.redshifts[snap])
 
             # The SMF is normalized by the simulation volume which is in Mpc/h.
-            ax.plot(bin_middles[:-1], model.properties["SMF_dict"][snap] / model.volume*pow(model.hubble_h, 3)/model.mass_bin_width,
-                    ls=ls, label=model_label)
+ #           ax.plot(bin_middles[:-1], model.properties["SMF_dict"][snap] / model.volume*pow(model.hubble_h, 3)/model.mass_bin_width,
+ #                   ls=ls, label=model_label)
 
     # For scaling the observational data, we use the values of the zeroth
     # model.
-    zeroth_IMF = (temporal_results.models)[0].IMF
-    ax = obs.plot_temporal_smf_data(ax, zeroth_IMF) 
+ #   zeroth_IMF = (temporal_results.models)[0].IMF
+ #   ax = obs.plot_temporal_smf_data(ax, zeroth_IMF) 
 
-    ax.set_xlabel(r"$\log_{10} M_{\mathrm{stars}}\ (M_{\odot})$")
-    ax.set_ylabel(r"$\phi\ (\mathrm{Mpc}^{-3}\ \mathrm{dex}^{-1})$")
+ #   ax.set_xlabel(r"$\log_{10} M_{\mathrm{stars}}\ (M_{\odot})$")
+ #   ax.set_ylabel(r"$\phi\ (\mathrm{Mpc}^{-3}\ \mathrm{dex}^{-1})$")
 
-    ax.set_yscale("log", nonposy="clip")
+ #   ax.set_yscale("log", nonposy="clip")
 
-    ax.set_xlim([8.0, 12.0])
-    ax.set_ylim([1.0e-6, 1.0e-1])
+ #   ax.set_xlim([8.0, 12.0])
+ #   ax.set_ylim([1.0e-6, 1.0e-1])
 
-    ax.xaxis.set_minor_locator(plt.MultipleLocator(0.1))
+ #   ax.xaxis.set_minor_locator(plt.MultipleLocator(0.1))
 
-    adjust_legend(ax, location="lower left", scatter_plot=0)
+ #   adjust_legend(ax, location="lower left", scatter_plot=0)
 
-    fig.tight_layout()
+ #   fig.tight_layout()
 
-    output_file = "{0}/A.StellarMassFunction{1}".format(temporal_results.plot_output_path,
-                                                        temporal_results.plot_output_format)
-    fig.savefig(output_file)
-    print("Saved file to {0}".format(output_file))
-    plt.close()
+ #   output_file = "{0}/A.StellarMassFunction{1}".format(temporal_results.plot_output_path,
+ #                                                       temporal_results.plot_output_format)
+ #   fig.savefig(output_file)
+ #   print("Saved file to {0}".format(output_file))
+ #   plt.close()
 
 
 def plot_BMF(results):
@@ -1399,28 +1399,33 @@ def plot_SFR_cut(temporal_results):
     ax = fig.add_subplot(111)
 
     for model in temporal_results.models:
-
+        
+        bin_middles = model.mass_bins + 0.5 * model.mass_bin_width
+        
         label = model.model_label
         color = model.color
         linestyle = model.linestyle
 
         # The SFRD is in a dictionary. Pull it out into a array for plotting.
         SFRD = np.array([model.properties["SFRD_dict"][snap] for snap in model.properties["SFRD_dict"].keys()])
+        SMF = np.array([model.properties["SMF_dict"][snap] for snap in model.properties["SMF_dict"].keys()])
         # Since we want the mean, divide SFRD by SFR_gal_len that we calculated
-        print("Number of gals in this model",model.properties["SFRD_gal_len"])
-        print("SFRD",SFRD)
-        print("SMF",model.properties["SMF"])
-        SFRD_mean = SFRD / model.properties["SFRD_gal_len"]
-        ax.plot(model.redshifts[model.density_snaps], np.log10(SFRD_mean),
+        print("Number of gals in this model: ",model.properties["SFRD_gal_len"])
+        print("SFRD: ",SFRD)
+        print("SMF: ",SMF)
+        print("sum SMF: ",np.sum(SMF))
+        SFRD_mean = SFRD / np.sum(SMF)
+        ax.plot(bin_middles[:-1], np.log10(SFRD_mean),
                 label=label, color=color, ls=linestyle)
+        #ax.plot(model.redshifts[model.density_snaps], np.log10(SFRD_mean),
+         #       label=label, color=color, ls=linestyle)
 
     #ax = obs.plot_sfrd_data(ax) 
-
-    ax.set_xlabel(r"$\mathrm{redshift}$")
     ax.set_xlabel(r"$\log_{10} M_{\mathrm{stars}}\ (M_{\odot})$")
+    ax.set_ylabel(r"$\log_{10}\ \mathrm{SFR} (M_{\odot}\mathrm{yr^{-1}})$")
 
-    #ax.set_xlim([0.0, 8.0])
-    #ax.set_ylim([-3.0, -0.4])
+    ax.set_xlim([8.0, 12.0])
+    ax.set_ylim([-4.0, 3.0])
 
     ax.xaxis.set_minor_locator(plt.MultipleLocator(1))
     ax.yaxis.set_minor_locator(plt.MultipleLocator(0.5))

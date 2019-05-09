@@ -453,7 +453,6 @@ if __name__ == '__main__':
 
     # These toggles specify which plots you want to be made.
     plot_toggles = {"SFR_cut"         : 1,  # Star formation rate for a given z=0 mass bin.
-                    #"GalaxyID_List"   : 1,  # To calculate the list of galaxies at mass cuts.
                     "SMF"             : 1,  # Stellar mass function at specified redshifts.
                     "SFRD"            : 1,  # Star formation rate density at specified snapshots. 
                     "SMD"             : 0}  # Stellar mass density at specified snapshots. 
