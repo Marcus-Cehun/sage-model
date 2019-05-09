@@ -383,20 +383,19 @@ class Model:
                     raise AttributeError(msg)
     
     def calc_GalaxyID_List(self, gals, boo_array):
-        
-        mass_cut_ind = np.where(((self.model_dict["mass_cut"] - 0.5) < gals["StellarMass"] < self.model_dict["mass_cut"])
+        mass_cut_ind = np.where((gals["StellarMass"][:] < self.mass_cuts[0]) & (gals["StellarMass"][:] > self.mass_cuts[0] - 0.5)
                                 & boo_array)[0]
-        #print(mass_cut_ind)
+        print("stellar mass:",gals["StellarMass"][:])
         
         # Calculates a list of galaxies within the model.
         indices = np.where(boo_array)[0]
         vals = gals["GalaxyIndex"][:][mass_cut_ind]
         self.properties["GalaxyID_List"].extend(list(vals))
-
+        print("vals",vals)
     
-    def calc_SMF(self, gals):
+    def calc_SMF(self, gals, boo_array):
 
-        non_zero_stellar = np.where(gals["StellarMass"][:] > 0.0)[0]
+        non_zero_stellar = np.where((gals["StellarMass"][:] > 0.0) & boo_array)[0]
 
         stellar_mass = np.log10(gals["StellarMass"][:][non_zero_stellar] * 1.0e10 / self.hubble_h)
         sSFR = (gals["SfrDisk"][:][non_zero_stellar] + gals["SfrBulge"][:][non_zero_stellar]) / \
@@ -835,8 +834,10 @@ class Model:
         if gals["SnapNum"][0] in self.density_snaps:
 
             wanted_gals = np.where(boo_array)[0]
-
+            #print(wanted_gals)
             SFR = gals["SfrDisk"][:][wanted_gals] + gals["SfrBulge"][:][wanted_gals]
+            #print(SFR)
+            #print(np.sum(SFR))
             self.properties["SFRD"] += np.sum(SFR)
             # Must also pass the length of wanted_gals since we might want to compute a mean SFR.
             self.properties["SFRD_gal_len"] += len(wanted_gals)
@@ -854,7 +855,7 @@ class Model:
     
          
     
-    def calc_SMD(self, gals):
+    def calc_SMD(self, gals, boo_array):
 
         # Check if the Snapshot is required.
         if gals["SnapNum"][0] in self.density_snaps:
