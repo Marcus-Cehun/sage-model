@@ -1411,13 +1411,13 @@ def plot_SFR_cut(temporal_results):
         SMF = np.array([model.properties["SMF_dict"][snap] for snap in model.properties["SMF_dict"].keys()])
         SMD = np.array([model.properties["SMD_dict"][snap] for snap in model.properties["SMD_dict"].keys()])
         
-        # Since we want the mean, divide SFRD by SFR_gal_len that we calculated
         print("SFRD: ",SFRD)
         #print("SMF: ",SMF)
-        print("sum SMF: ",np.sum(SMF))
+        print("sum SMF along 1: ",np.sum(SMF, 1))
+        print("sum SMF along 0: ",np.sum(SMF, 0))
         print("SMD: ",SMD)
-        SFRD_mean = SFRD / np.sum(SMF)
-        SM_mean = SMD / np.sum(SMF)
+        SFRD_mean = SFRD / np.sum(SMF, 1)
+        SM_mean = SMD / np.sum(SMF, 1)
         print("SM_mean: ", SM_mean)
         ax.plot(np.log10(SM_mean), np.log10(SFRD_mean),
                 label=label, color=color, ls=linestyle)
