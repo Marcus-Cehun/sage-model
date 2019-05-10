@@ -237,7 +237,7 @@ class Model:
         To add another property, add its name to the ``single_property_names`` list.
         """
 
-        single_property_names = ["SFRD", "SFRD_gal_len", "SMD"]
+        single_property_names = ["SFRD", "SFRD_mass", "SMD"]
 
         for my_property in single_property_names:
             self.properties[my_property] = 0.0
@@ -385,13 +385,11 @@ class Model:
     def calc_GalaxyID_List(self, gals, boo_array):
         mass_cut_ind = np.where((gals["StellarMass"][:] < self.mass_cuts[0]) & (gals["StellarMass"][:] > self.mass_cuts[0] - 0.5)
                                 & boo_array)[0]
-        print("stellar mass:",gals["StellarMass"][:])
         
         # Calculates a list of galaxies within the model.
         indices = np.where(boo_array)[0]
         vals = gals["GalaxyIndex"][:][mass_cut_ind]
         self.properties["GalaxyID_List"].extend(list(vals))
-        print("vals",vals)
     
     def calc_SMF(self, gals, boo_array):
 
@@ -833,25 +831,27 @@ class Model:
         # Check if the Snapshot is required.
         if gals["SnapNum"][0] in self.density_snaps:
 
-            wanted_gals = np.where(boo_array)[0]
+            wanted_gals = np.where((gals["StellarMass"][:] > 0.0) & boo_array)[0]
             #print(wanted_gals)
             SFR = gals["SfrDisk"][:][wanted_gals] + gals["SfrBulge"][:][wanted_gals]
+            Stellar = gals["StellarMass"][:][wanted_gals] * 1.0e10 / self.hubble_h
             #print(SFR)
             #print(np.sum(SFR))
             self.properties["SFRD"] += np.sum(SFR)
             # Must also pass the length of wanted_gals since we might want to compute a mean SFR.
-            self.properties["SFRD_gal_len"] += len(wanted_gals)
+            #self.properties["SFRD_mass"] += np.sum(Stellar)
         
     def calc_SFR_cut(self,gals,boo_array):
-        # Check if SFRD is plotted and Pass since SFRD calculates what we want.
+        # Check if SFRD and SMD are plotted and Pass since they calculate what we want.
         try:
-            if self.plot_toggles["SFRD"]:
+            if self.plot_toggles["SFRD"] and self.plot_toggles["SMD"]:
                 pass
             else:
                 self.calc_SFRD(gals,boo_array)
+                self.calc_SMD(gals,boo_array)
         # Maybe the user removed "SFRD" from the plot toggles...
         except KeyError:
-            self.calc_SFRD(gals,boo_array)
+            self.calc_SFRD(gals,boo_array) or self.calc_SMD(gals,boo_array)
     
          
     
@@ -860,7 +860,7 @@ class Model:
         # Check if the Snapshot is required.
         if gals["SnapNum"][0] in self.density_snaps:
 
-            non_zero_stellar = np.where(gals["StellarMass"][:] > 0.0)[0]
+            non_zero_stellar = np.where((gals["StellarMass"][:] > 0.0) & boo_array)[0]
             stellar_mass = gals["StellarMass"][:][non_zero_stellar] * 1.0e10 / self.hubble_h
-
+            print("Stellar Mass: ", stellar_mass)
             self.properties["SMD"] += np.sum(stellar_mass)

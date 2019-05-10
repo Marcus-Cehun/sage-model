@@ -289,7 +289,7 @@ if __name__ == '__main__':
     model1_file_name           = "model.hdf5"  # If using "sage_binary", doesn't have to end in "_zX.XXX"
     model1_IMF                 = "Chabrier"  # Chabrier or Salpeter.
     model1_model_label         = "8.5 mass cut"
-    model1_color               = "c"
+    model1_color               = "b"
     model1_linestyle           = "-"
     model1_marker              = "x"
     model1_first_file          = 0  # The files read in will be [first_file, last_file]
@@ -308,7 +308,7 @@ if __name__ == '__main__':
     model2_file_name           = "model.hdf5"  # If using "sage_binary", doesn't have to end in "_zX.XXX"
     model2_IMF                 = "Chabrier"  # Chabrier or Salpeter.
     model2_model_label         = "9.0 mass cut"
-    model2_color               = "c"
+    model2_color               = "r"
     model2_linestyle           = "-"
     model2_marker              = "x"
     model2_first_file          = 0  # The files read in will be [first_file, last_file]
@@ -327,7 +327,7 @@ if __name__ == '__main__':
     model3_file_name           = "model.hdf5"  # If using "sage_binary", doesn't have to end in "_zX.XXX"
     model3_IMF                 = "Chabrier"  # Chabrier or Salpeter.
     model3_model_label         = "9.5 mass cut"
-    model3_color               = "c"
+    model3_color               = "g"
     model3_linestyle           = "-"
     model3_marker              = "x"
     model3_first_file          = 0  # The files read in will be [first_file, last_file]
@@ -346,7 +346,7 @@ if __name__ == '__main__':
     model4_file_name           = "model.hdf5"  # If using "sage_binary", doesn't have to end in "_zX.XXX"
     model4_IMF                 = "Chabrier"  # Chabrier or Salpeter.
     model4_model_label         = "10.0 mass cut"
-    model4_color               = "c"
+    model4_color               = "k"
     model4_linestyle           = "-"
     model4_marker              = "x"
     model4_first_file          = 0  # The files read in will be [first_file, last_file]
@@ -365,7 +365,7 @@ if __name__ == '__main__':
     model5_file_name           = "model.hdf5"  # If using "sage_binary", doesn't have to end in "_zX.XXX"
     model5_IMF                 = "Chabrier"  # Chabrier or Salpeter.
     model5_model_label         = "10.5 mass cut"
-    model5_color               = "c"
+    model5_color               = "y"
     model5_linestyle           = "-"
     model5_marker              = "x"
     model5_first_file          = 0  # The files read in will be [first_file, last_file]
@@ -384,7 +384,7 @@ if __name__ == '__main__':
     model6_file_name           = "model.hdf5"  # If using "sage_binary", doesn't have to end in "_zX.XXX"
     model6_IMF                 = "Chabrier"  # Chabrier or Salpeter.
     model6_model_label         = "11.0 mass cut"
-    model6_color               = "c"
+    model6_color               = "m"
     model6_linestyle           = "-"
     model6_marker              = "x"
     model6_first_file          = 0  # The files read in will be [first_file, last_file]
@@ -403,7 +403,7 @@ if __name__ == '__main__':
     model7_file_name           = "model.hdf5"  # If using "sage_binary", doesn't have to end in "_zX.XXX"
     model7_IMF                 = "Chabrier"  # Chabrier or Salpeter.
     model7_model_label         = "11.5 mass cut"
-    model7_color               = "c"
+    model7_color               = "0.5"
     model7_linestyle           = "-"
     model7_marker              = "x"
     model7_first_file          = 0  # The files read in will be [first_file, last_file]
@@ -455,7 +455,7 @@ if __name__ == '__main__':
     plot_toggles = {"SFR_cut"         : 1,  # Star formation rate for a given z=0 mass bin.
                     "SMF"             : 1,  # Stellar mass function at specified redshifts.
                     "SFRD"            : 1,  # Star formation rate density at specified snapshots. 
-                    "SMD"             : 0}  # Stellar mass density at specified snapshots. 
+                    "SMD"             : 1}  # Stellar mass density at specified snapshots. 
 
     ############################
     ## DON'T TOUCH BELOW HERE ##

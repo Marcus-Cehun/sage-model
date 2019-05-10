@@ -1409,13 +1409,17 @@ def plot_SFR_cut(temporal_results):
         # The SFRD is in a dictionary. Pull it out into a array for plotting.
         SFRD = np.array([model.properties["SFRD_dict"][snap] for snap in model.properties["SFRD_dict"].keys()])
         SMF = np.array([model.properties["SMF_dict"][snap] for snap in model.properties["SMF_dict"].keys()])
+        SMD = np.array([model.properties["SMD_dict"][snap] for snap in model.properties["SMD_dict"].keys()])
+        
         # Since we want the mean, divide SFRD by SFR_gal_len that we calculated
-        print("Number of gals in this model: ",model.properties["SFRD_gal_len"])
         print("SFRD: ",SFRD)
-        print("SMF: ",SMF)
+        #print("SMF: ",SMF)
         print("sum SMF: ",np.sum(SMF))
+        print("SMD: ",SMD)
         SFRD_mean = SFRD / np.sum(SMF)
-        ax.plot(bin_middles[:-1], np.log10(SFRD_mean),
+        SM_mean = SMD / np.sum(SMF)
+        print("SM_mean: ", SM_mean)
+        ax.plot(np.log10(SM_mean), np.log10(SFRD_mean),
                 label=label, color=color, ls=linestyle)
         #ax.plot(model.redshifts[model.density_snaps], np.log10(SFRD_mean),
          #       label=label, color=color, ls=linestyle)
