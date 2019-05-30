@@ -433,14 +433,16 @@ def plot_SFR(results):
         marker = model.marker
 
         ax.scatter(model.properties["SFR_mass"], model.properties["SFR_SFR"], marker=marker, s=1, color=color,
-                   alpha=0.5, label=model_label)
+                   alpha=0.5, label=model_label+ " SFR")
 
     ax.set_xlabel(r"$\log_{10} M_{\mathrm{stars}}\ (M_{\odot})$")
     ax.set_ylabel(r"$\log_{10}\ \mathrm{SFR} (M_{\odot}\mathrm{yr^{-1}})$")
 
-    ax.set_xlim([8.0, 12.0])
-    ax.set_ylim([-4.0, 3.0])
+    #ax.set_xlim([8.5, 12.0])
+    #ax.set_ylim([-4.0, 3.0])
 
+    ax.set_xlim([9.2, 11.3])
+    ax.set_ylim([0.0, 3.2])
     ax.xaxis.set_minor_locator(plt.MultipleLocator(0.05))
     ax.yaxis.set_minor_locator(plt.MultipleLocator(0.25))
 
@@ -453,7 +455,7 @@ def plot_SFR(results):
     print("Saved file to {0}".format(output_file))
     plt.close()
 
-def plot_SFR_binned(results, plot_var=False):
+def plot_SFR_binned(results, plot_var=False, plot_med=False):
     """
     Plots the Star Formation Rate as a function
     of stellar mass for the models within the ``Results`` class instance.
@@ -492,36 +494,26 @@ def plot_SFR_binned(results, plot_var=False):
 
         # The variance has already been weighted when we calculated it.
         SFR_var = model.properties["SFR_var"]
-
         # We will keep the colour scheme consistent, but change the line styles.
-        ax.plot(bin_middles[:-1], np.log10(SFR_mean), label=model_label + " SFR",
+        ax.plot(bin_middles[:-1], np.log10(SFR_mean), label=model_label + " SFMS",
                 color=color, linestyle="-")
-
         if plot_var:
-            #print(SFR_mean[model.properties["SMF"] > 0])
-            #print(SFR_var[model.properties["SMF"] > 0])
-            #print(SFR_mean)
-            #print(SFR_var)
-            #print(SFR_mean-SFR_var)
-            #exit()
-            #print(SFR_var)
-            #print(bin_middles[:-1])
-            #print(model.properties["SMF"]
-            upper = np.log10(SFR_mean+SFR_var)
-            lower_dummy = SFR_mean-SFR_var
-            lower = np.empty(len(SFR_mean))
-            for i in range(len(SFR_mean)):
-                if lower_dummy[i]>0:
-                    lower[i] = np.log10(SFR_mean[i]-SFR_var[i])
-                else:
-                    lower[i] = np.log10(SFR_mean[i])
-            ax.fill_between(bin_middles[:-1], upper, lower,
+            upper = (SFR_mean+SFR_var)
+            lower = (SFR_mean-SFR_var)
+            ax.fill_between(bin_middles[:-1], lower, upper,
                             facecolor=color, alpha=0.25)
+        # Maybe we want to plot the median on the same axis
+        if plot_med:
+            SFR_median = model.properties["SFR_med"]
+            ax.plot(bin_middles[:-1], SFR_median, label=model_label + " SFR Median",
+                    color=color, linestyle=":")
+
+
 
     ax.set_xlabel(r"$\log_{10} M_{\mathrm{stars}}\ (M_{\odot})$")
     ax.set_ylabel(r"$\log_{10}\ \mathrm{SFR} (M_{\odot}\mathrm{yr^{-1}})$")
 
-    ax.set_xlim([8.0, 12.0])
+    ax.set_xlim([8.5, 12.0])
     ax.set_ylim([-4.0, 3.0])
 
     ax.xaxis.set_minor_locator(plt.MultipleLocator(0.05))
@@ -605,7 +597,7 @@ def plot_Cold_gas_mass(results, plot_var=False):
     ax.set_xlabel(r"$\log_{10} M_{\mathrm{stars}}\ (M_{\odot})$")
     ax.set_ylabel(r"$\log_{10} M_{\mathrm{Cold}}\ (M_{\odot})$")
 
-    ax.set_xlim([8.0, 12.0])
+    ax.set_xlim([8.5, 12.0])
     #ax.set_ylim([0.0, 12.0])
 
     ax.xaxis.set_minor_locator(plt.MultipleLocator(0.05))
@@ -658,14 +650,14 @@ def plot_t_dyn(results, plot_var=False):
         # Remember we need to average the properties in each bin.
         t_dyn_mean = model.properties["t_dyn_sum"] / model.properties["SMF"]
         
-        # Since this is in seconds, multiply to get years
-        t_dyn_year = t_dyn_mean / (60*60*24*365)
+        # Since this is in seconds, divide to get millions of years
+        t_dyn_year = t_dyn_mean / (60*60*24*365*(1e6))
 
         # The variance has already been weighted when we calculated it.
         t_dyn_var = model.properties["t_dyn_var"]
 
         # We will keep the colour scheme consistent, but change the line styles.
-        ax.plot(bin_middles[:-1], (t_dyn_year), label=model_label + " t_dyn",
+        ax.plot(bin_middles[:-1], (t_dyn_year), label=model_label + r" $t_{dyn}$",
                 color=color, linestyle="-")
 
         if plot_var:
@@ -690,9 +682,9 @@ def plot_t_dyn(results, plot_var=False):
                             facecolor=color, alpha=0.25)
 
     ax.set_xlabel(r"$\log_{10} M_{\mathrm{stars}}\ (M_{\odot})$")
-    ax.set_ylabel(r"$Years$")
+    ax.set_ylabel(r"Million Years")
 
-    ax.set_xlim([8.0, 12.0])
+    ax.set_xlim([8.5, 12.0])
     #ax.set_ylim([0.0, 12.0])
 
     ax.xaxis.set_minor_locator(plt.MultipleLocator(0.05))

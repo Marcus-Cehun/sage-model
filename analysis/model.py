@@ -179,9 +179,9 @@ class Model:
         """
 
         # Parameters that define stellar/halo mass bins. 
-        self.mass_bin_low      = 8.0 
-        self.mass_bin_high     = 14.0
-        self.mass_bin_width    = 0.1
+        self.mass_bin_low      = 8.5 
+        self.mass_bin_high     = 12.0
+        self.mass_bin_width    = 0.3
         self.mass_bins    = np.arange(self.mass_bin_low,
                                       self.mass_bin_high + self.mass_bin_width,
                                       self.mass_bin_width)
@@ -192,7 +192,7 @@ class Model:
                                   "quiescent_centrals_counts", "quiescent_satellites_counts",
                                   "fraction_bulge_sum", "fraction_bulge_var",
                                   "fraction_disk_sum", "fraction_disk_var", "SFR_sum", "SFR_var", 
-                                  "Cold_sum", "Cold_var", "t_dyn_sum", "t_dyn_var"] 
+                                  "Cold_sum", "Cold_var", "t_dyn_sum", "t_dyn_var","SFR_med"]#,"SFR_mad"] 
 
         # The following properties are binned on halo mass but use the same bins.
         halo_property_names = ["fof_HMF"]
@@ -383,14 +383,21 @@ class Model:
                     raise AttributeError(msg)
     
     def calc_GalaxyID_List(self, gals, boo_array):
-        mass_cut_ind = np.where((gals["StellarMass"][:] < self.mass_cuts[0]) & (gals["StellarMass"][:] > self.mass_cuts[0] - 0.5)
-                                & boo_array)[0]
         
+        # Calculates a list of galaxies between a given mass cut within the model.
+        #mass_cut_ind = np.where((gals["StellarMass"][:] > self.mass_cuts[0] - 0.5) & (gals["StellarMass"][:] < self.mass_cuts[0]))[0] 
+        mass_cut_ind = np.where(boo_array &
+                                (np.log10(gals["StellarMass"][:] * 1.0e10 / self.hubble_h) >= self.mass_cuts[0] - 0.5) &
+                                (np.log10(gals["StellarMass"][:] * 1.0e10 / self.hubble_h) <= self.mass_cuts[0]))[0]
+
         # Calculates a list of galaxies within the model.
-        indices = np.where(boo_array)[0]
+        indices = np.where(boo_array & (gals["SfrDisk"][:] + gals["SfrBulge"][:] > 0.0) & 
+                                (np.log10(gals["StellarMass"][:] * 1.0e10 / self.hubble_h) >= 9.0) &
+                                (np.log10(gals["StellarMass"][:] * 1.0e10 / self.hubble_h) <= 9.5))[0]
         vals = gals["GalaxyIndex"][:][mass_cut_ind]
         self.properties["GalaxyID_List"].extend(list(vals))
-    
+        print(vals)
+         
     def calc_SMF(self, gals, boo_array):
 
         non_zero_stellar = np.where((gals["StellarMass"][:] > 0.0) & boo_array)[0]
@@ -459,8 +466,13 @@ class Model:
         
         bulgey_gals = np.where(gals["BulgeMass"][:] > 0.5 * gals["StellarMass"][:])
         
+        non_zero_stellar = np.where((gals["StellarMass"][:] > 0.0) & boo_array)[0]# & 
+                                    #(gals["BulgeMass"][:] / gals["StellarMass"][:] > 0.5))[0]
+        
         non_zero_stellar = np.where((gals["StellarMass"][:] > 0.0) & boo_array & 
-                                    (gals["BulgeMass"][:] / gals["StellarMass"][:] > 0.5))[0]
+                                    (gals["BulgeMass"][:] / gals["StellarMass"][:] < 0.5) &
+                                    (gals["SfrDisk"][:] + gals["SfrBulge"][:] > 0.0))[0]
+                                    
         
         stellar_mass = np.log10(gals["StellarMass"][:][non_zero_stellar] * 1.0e10 / self.hubble_h)
         SFR = (gals["SfrDisk"][:][non_zero_stellar] + gals["SfrBulge"][:][non_zero_stellar])
@@ -476,18 +488,20 @@ class Model:
         self.properties["SFR_SFR"].extend(list(np.log10(SFR[random_inds])))
     
     def calc_SFR_binned(self, gals, boo_array):
-
+        print(boo_array)
         non_zero_stellar = np.where((gals["StellarMass"][:] > 0.0) & boo_array & 
-                                    (gals["BulgeMass"][:] / gals["StellarMass"][:] > 0.5))[0]
-
+#                                    (gals["BulgeMass"][:] / gals["StellarMass"][:] < 0.5))[0]# &
+                                    (gals["SfrDisk"][:] + gals["SfrBulge"][:] > 0.0))[0]
+        
         stellar_mass = np.log10(gals["StellarMass"][:][non_zero_stellar] * 1.0e10 / self.hubble_h)
         
         SFR = (gals["SfrDisk"][:][non_zero_stellar] + gals["SfrBulge"][:][non_zero_stellar])
-        
-        non_zero_SFR = np.where(SFR > 0)[0]
-        percentage_non_zero = len(non_zero_SFR)/len(SFR) * 100
-        print(len(SFR))
-        print(percentage_non_zero)
+       
+        # Check that we have only star forming galaxies. 
+        non_zero_SFR = np.where(SFR[:] > 0)[0]
+        #percentage_non_zero = len(non_zero_SFR)/len(SFR) * 100
+        #print(len(SFR))
+        #print(percentage_non_zero)
         
         # When plotting, we scale the fraction of each galaxy type the total number of
         # galaxies in that bin. This is the Stellar Mass Function.
@@ -507,6 +521,9 @@ class Model:
                                                           statistic=np.sum, bins=self.mass_bins)
         self.properties["SFR_sum"] += SFR_sum
 
+        SFR_med, _, _ = stats.binned_statistic(stellar_mass, SFR,
+                                                          statistic=np.median, bins=self.mass_bins)
+        self.properties["SFR_med"] += SFR_med
         # For the variance, weight these by the total number of samples we will be
         # averaging over (i.e., number of files).
         SFR_var, _, _ = stats.binned_statistic(stellar_mass, SFR,
@@ -550,7 +567,7 @@ class Model:
     def calc_t_dyn(self, gals, boo_array):
         # First we take all galaxies with non zero proerties
         non_zero = np.where((gals["StellarMass"][:] > 0.0) & (gals["Vvir"][:] > 0.0) 
-                                    & (gals["DiskRadius"][:] > 0.0) & boo_array)
+                                   & (gals["DiskRadius"][:] > 0.0) & boo_array)[0]
 
         stellar_mass = np.log10(gals["StellarMass"][:][non_zero] * 1.0e10 / self.hubble_h)
         # create arrays within working environment that have properties we want

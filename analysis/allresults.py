@@ -276,7 +276,7 @@ if __name__ == "__main__":
     model4_5_hdf5_snapshot       = 22 # Snapshot we're plotting the HDF5 data at.
     model4_5_num_tree_files_used = 8  # Number of tree files processed by SAGE to produce this output.
     
-    model6_2_sage_output_format  = "sage_hdf5"  # Format SAGE output in. "sage_binary" or "sage_hdf5".
+    model6_2_sage_output_format  = "sage_hdf5"  # Format SAGE output ine "sage_binary" or "sage_hdf5".
     model6_2_dir_name            = "../output/mini_millennium/"
     model6_2_file_name           = "model.hdf5"
     model6_2_IMF                 = "Chabrier"  # Chabrier or Salpeter.
@@ -294,19 +294,19 @@ if __name__ == "__main__":
     model10_dir_name            = "../output/mini_millennium/"
     model10_file_name           = "model.hdf5"
     model10_IMF                 = "Chabrier"  # Chabrier or Salpeter.
-    model10_model_label         = "z=10"
+    model10_model_label         = "z=6.7"
     model10_color               = "0.75"
     model10_linestyle           = "-"
     model10_marker              = "x"
     model10_first_file          = 0  # The files read in will be [first_file, last_file]
     model10_last_file           = 0  # This is a closed interval.
     model10_simulation          = "Mini-Millennium"  # Sets the cosmology. Required for "sage_binary".
-    model10_hdf5_snapshot       = 12 # Snapshot we're plotting the HDF5 data at.
+    model10_hdf5_snapshot       = 17 # Snapshot we're plotting the HDF5 data at.
     model10_num_tree_files_used = 8  # Number of tree files processed by SAGE to produce this output.
-    
-    
-    # Then extend each of these lists for all the models that you want to plot.
-    # E.g., 'dir_names = [model0_dir_name, model1_dir_name, ..., modelN_dir_name]
+ 
+ 
+  # Then extend each of these lists for all the models that you want to plot.
+  # E.g., 'dir_names = [model0_dir_name, model1_dir_name, ..., modelN_dir_name]
     sage_output_formats = [model0_sage_output_format, model0_5_sage_output_format, 
                         model1_sage_output_format, model2_sage_output_format, 
                         model3_sage_output_format, model4_5_sage_output_format, 
@@ -344,17 +344,61 @@ if __name__ == "__main__":
                         model1_num_tree_files_used, model2_num_tree_files_used, 
                         model3_num_tree_files_used, model4_5_num_tree_files_used, 
                         model6_2_num_tree_files_used, model10_num_tree_files_used]
-    
+   
+
+#    sage_output_formats = [model0_sage_output_format]#, model0_5_sage_output_format, 
+#    dir_names           = [model0_dir_name]#, model0_5_dir_name, model1_dir_name, model2_dir_name, 
+#    file_names          = [model0_file_name]#, model0_5_file_name, model1_file_name,
+#    IMFs                = [model0_IMF]#, model0_5_IMF, model1_IMF, model2_IMF, model3_IMF, model4_5_IMF,
+#    model_labels        = [model0_model_label]#, model0_5_model_label, model1_model_label,
+#    colors              = [model0_color]#, model0_5_color, model1_color, model2_color, 
+#    linestyles          = [model0_linestyle]#, model0_5_linestyle, model1_linestyle, 
+#    markers             = [model0_marker]#, model0_5_marker, model1_marker, model2_marker, 
+#    first_files         = [model0_first_file]#, model0_5_first_file, model1_first_file, 
+#    last_files          = [model0_last_file]#, model0_5_last_file, model1_last_file, 
+#    simulations         = [model0_simulation]#, model0_5_simulation, model1_simulation, 
+#    hdf5_snapshots      = [model0_hdf5_snapshot]#, model0_5_hdf5_snapshot, model1_hdf5_snapshot, 
+#    num_tree_files_used = [model0_num_tree_files_used]#, model0_5_num_tree_files_used, 
+
+#    sage_output_formats = [model0_sage_output_format, model0_5_sage_output_format, 
+#                        model1_sage_output_format, model2_sage_output_format, 
+#                        model3_sage_output_format, model4_5_sage_output_format] 
+#    dir_names           = [model0_dir_name, model0_5_dir_name, model1_dir_name, model2_dir_name, 
+#                        model3_dir_name, model4_5_dir_name]
+#    file_names          = [model0_file_name, model0_5_file_name, model1_file_name,
+#                         model2_file_name, model3_file_name, model4_5_file_name]
+#    IMFs                = [model0_IMF, model0_5_IMF, model1_IMF, model2_IMF, model3_IMF, model4_5_IMF]
+#    model_labels        = [model0_model_label, model0_5_model_label, model1_model_label,
+#                        model2_model_label, model3_model_label, model4_5_model_label]
+#    colors              = [model0_color, model0_5_color, model1_color, model2_color, 
+#                        model3_color, model4_5_color]
+#    linestyles          = [model0_linestyle, model0_5_linestyle, model1_linestyle, 
+#                        model2_linestyle, model3_linestyle, model4_5_linestyle] 
+#    markers             = [model0_marker, model0_5_marker, model1_marker, model2_marker, 
+#                        model3_marker, model4_5_marker]
+#    first_files         = [model0_first_file, model0_5_first_file, model1_first_file, 
+#                        model2_first_file, model3_first_file, model4_5_first_file] 
+#    last_files          = [model0_last_file, model0_5_last_file, model1_last_file, 
+#                        model2_last_file, model3_last_file, model4_5_last_file] 
+#    simulations         = [model0_simulation, model0_5_simulation, model1_simulation, 
+#                        model2_simulation, model3_simulation, model4_5_simulation] 
+#    hdf5_snapshots      = [model0_hdf5_snapshot, model0_5_hdf5_snapshot, model1_hdf5_snapshot, 
+#                        model2_hdf5_snapshot, model3_hdf5_snapshot, model4_5_hdf5_snapshot] 
+#    num_tree_files_used = [model0_num_tree_files_used, model0_5_num_tree_files_used, 
+#                        model1_num_tree_files_used, model2_num_tree_files_used, 
+#                        model3_num_tree_files_used, model4_5_num_tree_files_used] 
+ 
     # A couple of extra variables...
     plot_output_format    = ".png"
     plot_output_path = "./mini_millennium_hdf5_plots"  # Will be created if path doesn't exist.
 
     # These toggles specify which plots you want to be made.
-    plot_toggles = {"SMF"             : 0,  # Stellar mass function.
+    plot_toggles = {"SMF"             : 1,  # Stellar mass function.
+                    "GalaxyID_List"   : 0,  # id list only calculated once.
                     "BMF"             : 0,  # Baryonic mass function.
                     "GMF"             : 0,  # Gas mass function (cold gas).
                     "BTF"             : 0,  # Baryonic Tully-Fisher.
-                    "SFR"             : 1,  # Star formation rate.
+                    "SFR"             : 0,  # Star formation rate.
                     "SFR_binned"      : 1,  # Star formation rate binned.
                     "Cold_gas_mass"   : 0,  # Cold gas mass binned to stellar mass
                     "t_dyn"           : 0,  # Dynamical timescale as a function of stellar mass
@@ -412,18 +456,18 @@ if __name__ == "__main__":
     # Here we calculate just model 0 in order to read in galaxies of
     # redshift 0.
     
-    model0_dict = {}
+    model2_dict = {}
     # We only want to calculate the GalaxyID_list, so set toggle to 1
-    model0_plot_toggles = {"GalaxyID_List" :1}
+    model2_plot_toggles = {"GalaxyID_List" :1}
     # Loop over 
     for field in model_dict.keys():
-        model0_dict[field] = model_dict[field][0]
+        model2_dict[field] = model_dict[field][0]
 
     # Use the correct subclass depending upon the format SAGE wrote in.
-    if model0_dict["sage_output_format"] == "sage_binary":
-        model = SageBinaryModel(model0_dict, model0_plot_toggles)
-    elif model0_dict["sage_output_format"] == "sage_hdf5":
-        model = SageHdf5Model(model0_dict, model0_plot_toggles)
+    if model2_dict["sage_output_format"] == "sage_binary":
+        model = SageBinaryModel(model2_dict, model2_plot_toggles)
+    elif model2_dict["sage_output_format"] == "sage_hdf5":
+        model = SageHdf5Model(model2_dict, model2_plot_toggles)
 
 
     
@@ -435,7 +479,7 @@ if __name__ == "__main__":
     model.calc_properties_all_files(debug=True, IDs_to_Process=None)
     # Pass calculated GalaxyID_list to IDs_to_Process or set
     # to None and comment out the passing if you wish to plot all galaxies.
-    IDs_to_Process = None#model.properties["GalaxyID_List"] 
+    IDs_to_Process = model.properties["GalaxyID_List"] 
     ################
 
     # Pass IDs_to_Process to Results to plot only selected galaxies.
